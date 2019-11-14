@@ -14,6 +14,15 @@ library(workflowr)
 wflow_build()
 ```
 
+```{r}
+wflow_publish("Data_sim.Rmd", "Initial data simulation")
+```
+
+
+```{r}
+wflow_view()
+```
+
 
 Two-state model of gene expression:
 
