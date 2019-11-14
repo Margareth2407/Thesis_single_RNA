@@ -1,0 +1,75 @@
+---
+title: "Data_simulation"
+author: "Margarita Orlova"
+date: "2019-11-13"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+##Data generation for one gene under two-state model with different parameters
+
+Two-state model of gene expression:
+
+$x|k_r,p\sim Poisson(sp)$
+
+$p|k_{on},k_{off}\sim Beta(k_{on},k_{off})$
+
+Here is the R code to simulate mRNA copy number for 1 gene in n cells:
+
+```{r}
+generate_one_gene<-function(k_on,k_off,k_r,n){
+  p=rbeta(n,k_on,k_off)
+  x=rpois(n,p*k_r)
+  return(x)
+}
+```
+
+Different parameters of $k_{on}$ and $k_{off}$ lead to different mRNA copy number distribution
+
+I) Small $k_{on}$ and $k_{off}$ lead to bimodal distribution (large number of cells have low expression with few cells with high expression):
+
+```{r}
+#Fixed k=100 as in Munsky paper the Fig.2
+par(mfrow=c(2,2))
+k=c(0.001,0.01,0.1,0.5)
+for (i in k){
+  x=generate_one_gene(i,i,100,n=10000)
+  name=paste('k_on,k_off=',i)
+  hist(x,xlim=c(0,200),ylim=c(0,0.06),freq=FALSE,main=name)}
+```
+
+
+II) Large $k_{on}$ and $k_{off}$ lead to Poisson or negative binomial distribution:
+
+```{r}
+par(mfrow=c(2,2))
+k=c(2,10,100,1000)
+for (i in k){
+  x=generate_one_gene(i,i,100,n=10000)
+  name=paste('k_on,k_off=',i)
+  hist(x,xlim=c(0,200),ylim=c(0,0.06),freq=FALSE,main=name)}
+```
+
+
+III) Large value if $k_{off}$ and small $k_{on}$
+
+```{r}
+par(mfrow=c(1,2))
+k=list(c(0.1,1),c(1,10))
+for (i in k){
+  x=generate_one_gene(i[1],i[2],100,n=10000)
+  name=paste("k_on",i[1],'k_off',i[2])
+  hist(x,xlim=c(0,200),ylim=c(0,0.1),freq=FALSE,main=name)}
+```
+
+IV) Small value if $k_{off}$ and big $k_{on}$
+
+```{r}
+par(mfrow=c(1,2))
+k=list(c(1,0.1),c(10,1))
+for (i in k){
+  x=generate_one_gene(i[1],i[2],100,n=10000)
+  name=paste("k_on",i[1],'k_off',i[2])
+  hist(x,xlim=c(0,200),ylim=c(0,0.1),freq=FALSE,main=name)}
+```
