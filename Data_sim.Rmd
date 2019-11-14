@@ -17,6 +17,9 @@ wflow_build()
 ```{r}
 wflow_publish("Data_sim.Rmd", "Initial data simulation")
 ```
+```{r}
+wflow_open("analysis/Data_sim.Rmd")
+```
 
 
 ```{r}
