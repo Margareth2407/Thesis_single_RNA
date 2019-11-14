@@ -1,7 +1,7 @@
-name: "Thesis_single_RNA"
+name: Thesis_single_RNA
 output_dir: ../docs
 navbar:
-  title: "Thesis_single_RNA"
+  title: Thesis_single_RNA
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/myname/Thesis_single_RNA
 output:
   workflowr::wflow_html:
     toc: yes
