@@ -11,7 +11,7 @@ library(workflowr)
 ```
 
 ```{r}
-wflow_build()
+wflow_status()
 ```
 
 ```{r}
@@ -29,21 +29,30 @@ wflow_view()
 
 
 ```{r}
-wflow_status()
+wflow_view(files="docs/Data_sim.html")
+```
+
+
+```{r}
+wflow_build()
 ```
 
 ```{r}
-wflow_publish("analysis/Data_sim.Rmd", "Initial data simulation")
+wflow_publish("analysis/index.Rmd")
 ```
 
 ```{r}
-wflow_use_github("myname")
+wflow_use_github("Margareth2407")
 ```
-
 
 
 ```{r}
 wflow_git_push()
+```
+
+
+```{r}
+workflowr::wflow_publish(all = TRUE)
 ```
 
 
