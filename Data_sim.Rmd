@@ -29,16 +29,13 @@ wflow_view()
 
 
 ```{r}
-wflow_view(files="docs/Data_sim.html")
+wflow_view(files="docs/MLE_estimates.html")
 ```
 
 
 ```{r}
-wflow_build()
-```
-
-```{r}
-wflow_publish("analysis/index.Rmd")
+wflow_publish("analysis/MLE_estimates.Rmd")
+#wflow_publish("analysis/index.Rmd")
 ```
 
 ```{r}
@@ -47,7 +44,7 @@ wflow_use_github("Margareth2407")
 
 
 ```{r}
-wflow_git_push()
+wflow_git_push(dry_run = TRUE)
 ```
 
 
