@@ -21,12 +21,12 @@ source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.
 ```{r, echo=FALSE}
 library(robustbase)
 #True k_on=k_off=0.1
-hist(est_1[,1],breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=0.1")
-abline(v=0.1,col='red')
-hist(est_1[,2],breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=0.1")
-abline(v=0.1,col='red')
-hist(est_1[,3],breaks=30, main="MLE estimate of k_r parameter,1000 runs,true k_r=100")
-abline(v=100,col='red')
+hist(log(est_1[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=0.1, log scale")
+abline(v=log(0.1),col='red')
+hist(log(est_1[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=0.1, log scale")
+abline(v=log(0.1),col='red')
+hist(log(est_1[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs,true k_r=100, log scale")
+abline(v=log(100),col='red')
 paste("true k_on is 0.1;","k_on mean",round(mean(est_1[,1],na.rm=TRUE),3),"k_on median",round(median(est_1[,1],na.rm=TRUE),3))
 paste("true k_off is 0.1;","k_off mean",round(mean(est_1[,2],na.rm=TRUE),3),"k_off median",round(median(est_1[,2],na.rm=TRUE),3))
 paste("true k_r is 100;","k_r mean",round(mean(est_1[,3],na.rm=TRUE),3),"k_r median",round(median(est_1[,3],na.rm=TRUE),3))
@@ -38,12 +38,12 @@ Small $k_{on}$ and $k_{off}$ leads to bimodal distribution. As we see from histo
 
 ```{r, echo=FALSE}
 #True k_on=k_off=10
-hist(est_2[,1],breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=10")
-abline(v=10,col='red')
-hist(est_2[,2],breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=10")
-abline(v=10,col='red')
-hist(est_2[,3],breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100")
-abline(v=100,col='red')
+hist(log(est_2[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=10, log scale")
+abline(v=log(10),col='red')
+hist(log(est_2[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=10, log scale")
+abline(v=log(10),col='red')
+hist(log(est_2[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100, log scale")
+abline(v=log(100),col='red')
 paste("true k_on is 10;","k_on mean",round(mean(est_2[,1],na.rm=TRUE),3),"k_on median",round(median(est_2[,1],na.rm=TRUE),3))
 paste("true k_off is 10;","k_off mean",round(mean(est_2[,2],na.rm=TRUE),3),"k_off median",round(median(est_2[,2],na.rm=TRUE),3))
 paste("true k_r is 100;","k_r mean",round(mean(est_2[,3],na.rm=TRUE),3),"k_r median",round(median(est_2[,3],na.rm=TRUE),3))
@@ -55,12 +55,12 @@ Large $k_{on}$ and $k_{off}$ case lead to Poisson or negative binomial distribut
 
 ```{r, echo=FALSE}
 #True k_on=1, k_off=10
-hist(est_3[,1],breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=1")
-abline(v=1,col='red')
-hist(est_3[,2],breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=10")
-abline(v=10,col='red')
-hist(est_3[,3],breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100")
-abline(v=100,col='red')
+hist(log(est_3[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=1, log scale")
+abline(v=log(1),col='red')
+hist(log(est_3[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=10, log scale")
+abline(v=log(10),col='red')
+hist(log(est_3[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100, log scale")
+abline(v=log(100),col='red')
 paste("true k_on is 1;","k_on mean",round(mean(est_3[,1],na.rm=TRUE),3),"k_on median",round(median(est_3[,1],na.rm=TRUE),3))
 paste("true k_off is 10;","k_off mean",round(mean(est_3[,2],na.rm=TRUE),3),"k_off median",round(median(est_3[,2],na.rm=TRUE),3))
 paste("true k_r is 100;","k_r mean",round(mean(est_3[,3],na.rm=TRUE),3),"k_r median",round(median(est_3[,3],na.rm=TRUE),3))
@@ -72,12 +72,12 @@ k_on parameter being estimated correctly, while k_off and k_r are non-identifiab
 
 ```{r, echo=FALSE}
 #True k_on=10, k_off=1
-hist(est_4[,1],breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=10")
-abline(v=10,col='red')
-hist(est_4[,2],breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=1")
-abline(v=1,col='red')
-hist(est_4[,3],breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100")
-abline(v=100,col='red')
+hist(log(est_4[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=10, log scale")
+abline(v=log(10),col='red')
+hist(log(est_4[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=1, log scale")
+abline(v=log(1),col='red')
+hist(log(est_4[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100, log scale")
+abline(v=log(100),col='red')
 paste("true k_on is 10;","k_on mean",round(mean(est_4[,1],na.rm=TRUE),3),"k_on median",round(median(est_4[,1],na.rm=TRUE),3))
 paste("true k_off is 1;","k_off mean",round(mean(est_4[,2],na.rm=TRUE),3),"k_off median",round(median(est_4[,2],na.rm=TRUE),3))
 paste("true k_r is 100;","k_r mean",round(mean(est_4[,3],na.rm=TRUE),3),"k_r median",round(median(est_4[,3],na.rm=TRUE),3))

@@ -11,7 +11,7 @@ editor_options:
 
 Two-state model of gene expression:
 
-$x|k_r,p\sim Poisson(sp)$
+$x|k_r,p\sim Poisson(k_rp)$
 
 $p|k_{on},k_{off}\sim Beta(k_{on},k_{off})$
 

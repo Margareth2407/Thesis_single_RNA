@@ -82,38 +82,38 @@ def MomentInference(vals, export_moments=False):
 
 
 
-def generate_data(kon,koff,kr,n):
-    x=np.empty([n, 1])
-    for i in range(0,n):
+def generate_data(kon,koff,kr,n_cells):
+    x=np.empty([n_cells, 1])
+    for i in range(0,n_cells):
         p=np.random.beta(kon, koff, size=None)
         x[i]=np.random.poisson(kr*p, size=None)
     return(x)
 
 	
-n=1000
+n_estimates=1000
 ##small k_on and k_off
-est_1=x=np.empty([n, 3])
-for j in range(0,n):
+est_1=x=np.empty([n_estimates, 3])
+for j in range(0,n_estimates):
     x=generate_data(0.1,0.1,100,100)
     est_1[j]=MaximumLikelihood(x)
 	
 	
 ##large k_on and k_off
-est_2=x=np.empty([n, 3])
-for j in range(0,n):
+est_2=x=np.empty([n_estimates, 3])
+for j in range(0,n_estimates):
     x=generate_data(10,10,100,100)
     est_2[j]=MaximumLikelihood(x)
 	
 	
 ##small k_on and large k_off
-est_3=x=np.empty([n, 3])
-for j in range(0,n):
+est_3=x=np.empty([n_estimates, 3])
+for j in range(0,n_estimates):
     x=generate_data(1,10,100,100)
     est_3[j]=MaximumLikelihood(x)
 	
 	
 ##Large k_on and small k_off
-est_4=x=np.empty([n, 3])
-for j in range(0,n):
+est_4=x=np.empty([n_estimates, 3])
+for j in range(0,n_estimates):
     x=generate_data(10,1,100,100)
     est_4[j]=MaximumLikelihood(x)
