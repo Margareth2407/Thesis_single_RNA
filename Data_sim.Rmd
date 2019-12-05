@@ -38,13 +38,9 @@ wflow_publish("analysis/MLE_estimates.Rmd")
 #wflow_publish("analysis/index.Rmd")
 ```
 
-```{r}
-wflow_use_github("Margareth2407")
-```
-
 
 ```{r}
-wflow_git_push(dry_run = TRUE)
+wflow_git_push()
 ```
 
 
