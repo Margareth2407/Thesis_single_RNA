@@ -1,5 +1,5 @@
 ---
-title: "MLE_bootrap"
+title: "MLE_bootstrap"
 author: "Margarita Orlova"
 date: "December 4, 2019"
 output: html_document
