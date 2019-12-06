@@ -12,3 +12,4 @@ Welcome to my research website.
 
 * [Data Simulation](Data_sim.html)
 * [MLE estimation of parameters](MLE_estimates.html)
+* [Bootstrap of MLE of parameters](MLE_bootstrap.html)
