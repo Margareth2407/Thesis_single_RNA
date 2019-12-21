@@ -45,9 +45,9 @@ hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs,true 
 abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
-plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off")
-plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r")
-plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r")
+plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
 ```
 
 Small $k_{on}$ and $k_{off}$ leads to bimodal distribution. As we see from histograms, mean and median MLE estimates are centered around true value.
@@ -77,9 +77,9 @@ hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true
 abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
-plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off")
-plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r")
-plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r")
+plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
 ```
 
 Large $k_{on}$ and $k_{off}$ case lead to Poisson or negative binomial distribution and as we can see parameters are not identifiable.  
@@ -110,9 +110,9 @@ hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true
 abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
-plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off")
-plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r")
-plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r")
+plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
 ```
 
 k_on parameter being estimated correctly, while k_off and k_r are non-identifiable.
@@ -143,9 +143,9 @@ hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true
 abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
-plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off")
-plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r")
-plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r")
+plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
 ```
 
 
