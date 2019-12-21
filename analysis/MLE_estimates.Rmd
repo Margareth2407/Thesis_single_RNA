@@ -62,7 +62,6 @@ Small $k_{on}$ and $k_{off}$ leads to bimodal distribution. As we see from histo
 k_on=as.numeric(10)
 k_off=as.numeric(10)
 kr=as.numeric(100)
-n_cells=as.integer(100)
 est=matrix(, nrow = n_estimates, ncol = 3)
 for (i in 1:n_estimates){
   x=generate_data(k_on,k_off,kr,n_cells)
@@ -97,7 +96,6 @@ Large $k_{on}$ and $k_{off}$ case lead to Poisson or negative binomial distribut
 k_on=as.numeric(1)
 k_off=as.numeric(10)
 kr=as.numeric(100)
-n_cells=as.integer(100)
 est=matrix(, nrow = n_estimates, ncol = 3)
 for (i in 1:n_estimates){
   x=generate_data(k_on,k_off,kr,n_cells)
@@ -130,11 +128,9 @@ k_on parameter being estimated correctly, while k_off and k_r are non-identifiab
 
 ```{r, echo=FALSE}
 #True k_on=10, k_off=1
-n_estimates=100
 k_on=as.numeric(10)
 k_off=as.numeric(1)
 kr=as.numeric(100)
-n_cells=as.integer(100)
 est=matrix(, nrow = n_estimates, ncol = 3)
 for (i in 1:n_estimates){
   x=generate_data(k_on,k_off,kr,n_cells)
