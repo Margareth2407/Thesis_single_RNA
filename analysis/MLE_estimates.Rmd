@@ -46,8 +46,11 @@ abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
 plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+points(log(0.1),log(0.1),col="red",pch = 19,font=4)
 plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+points(log(0.1),log(100),col="red",pch = 19,font=4)
 plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
+points(log(0.1),log(100),col="red",pch = 19,font=4)
 ```
 
 Small $k_{on}$ and $k_{off}$ leads to bimodal distribution. As we see from histograms, mean and median MLE estimates are centered around true value.
@@ -78,8 +81,11 @@ abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
 plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+points(log(10),log(10),col="red",pch = 19,font=4)
 plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+points(log(10),log(100),col="red",pch = 19,font=4)
 plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
+points(log(10),log(100),col="red",pch = 19,font=4)
 ```
 
 Large $k_{on}$ and $k_{off}$ case lead to Poisson or negative binomial distribution and as we can see parameters are not identifiable.  
@@ -111,8 +117,11 @@ abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
 plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+points(log(1),log(10),col="red",pch = 19,font=4)
 plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+points(log(1),log(100),col="red",pch = 19,font=4)
 plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
+points(log(10),log(100),col="red",pch = 19,font=4)
 ```
 
 k_on parameter being estimated correctly, while k_off and k_r are non-identifiable.
@@ -144,8 +153,11 @@ abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
 plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
+points(log(10),log(1),col="red",pch = 19,font=4)
 plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
+points(log(10),log(100),col="red",pch = 19,font=4)
 plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
+points(log(1),log(100),col="red",pch = 19,font=4)
 ```
 
 
