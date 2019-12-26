@@ -6,7 +6,36 @@ output: html_document
 ---
 # MLE estimates and sampling variability
 
-In this section we infer point estimates $k_{on}$,$k_{off}$ and $k_r$ by maximum likelihood and estimate sampling variability of MLE. 
+In this section we infer parameter estimates by maximum likelihood and estimate sampling variability of MLE. 
+
+As explained in previous data simulation section, mRNA gene expression can be modelled as three or four parameter model.
+
+For three-parameter model probability distribution is:
+
+$P(X\leq x) = \int_0^{1} P(X\leq x|k_r*p)f(p)dp=\frac{1}{B(k_{on},k_{off})}\int_0^{1} P(X\leq x|k_r*p)p^{k_{on}-1}(1-p)^{k_{off}-1}dp$
+
+Using $t=2p-1$, $p=\frac{t+1}{2}$ and $dt=2dp$ we have
+
+$\frac{1}{B(k_{on},k_{off})}\frac{1}{2^{k_{on}+k_{off}-1}}\int_{-1}^{1} P(X\leq x|\frac{k_r(t+1)}{2})(1+t)^{k_{on}-1}(1-t)^{k_{off}-1}$, the integral can be computed with the use of Gauss-Jacobi quadrature method.
+
+And as we discussed previously, $BetaPoisson(x|k_{on},k_{off},k_r,d) = BetaPoisson(\frac{x}{d}|k_{on},k_{off},k_r)$, so same applies to the probability distribution of four-parameter model.
+
+Using pdf of the model we can calculate log-likelihood for the data  $logL(k_{on},k_{off},k_{r},d)=\sum_x n(x) log(p(\frac{x}{d}|k_{on},k_{off},k_{r}))$, where $n(x)$ is the number of cells with mRNA expression level equal to x.
+
+To optimize the computations, we will choose initial values using method of moments.
+
+E(X) and Var(X) can be estimated from the data directly 
+
+
+$Var(X|k_r*p)=E(X|k_r*p)=k_r*p$ as mean and variance of Poisson distribution
+
+$E(X)=E(E(X|k_r*p))=k_r*\frac{k_{on}}{k_{on}+k_{off}}$ by Tower Law
+
+$Var(X)=E(Var(X|k_r*p))+Var(E(X|k_r*p))=E(k_r*p) + Var(k_r*p) = k_r\frac{k_{on}}{k_{on}+k_{off}} + k_r^2\frac{k_{on}*k_{off}}{(k_{on}+k_{off})^2(k_{on}+k_{off}+1)}$ by law of total variance.
+
+From that we can estimate $k_{on}=\frac{E(X)}{k_r}(\frac{E(X)(k_r-E(X))}{Var(X)-E(X)}-1)$ and $k_{off}=k_{on}*\frac{k_r-E(X)}{E(X)}$
+
+d is estimated as 0.1*median(X), if this value is less then 1.0 and 1.0 otherwise. After we choose d, we also scale data prior to other parameter initialization.  Initial estimate of $k_r$ is chosen to be max(X).
 
 Now we will implement the method above, using code provided by Larsson et al. publication.
 Since the original code is in python, we have to source it from MLE.py script, generate 1000 datasets with same $k_{on}$,$k_{off}$ and $k_r$ and get the point estimates. We repeat this process 4 times with different $k_{on}$,$k_{off}$ scenarios.
