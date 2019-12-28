@@ -55,7 +55,7 @@ abline(h = log(100),col="red")
 
 ## II) Large $k_{on}$ and $k_{off}$ case: 
 
-```{r}
+```{r,echo=FALSE}
 #True k_on=k_off=10
 k_on=as.numeric(10)
 k_off=as.numeric(10)
