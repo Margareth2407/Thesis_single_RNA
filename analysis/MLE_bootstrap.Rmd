@@ -22,7 +22,7 @@ Bootstrap procedure:
 
 3) Estimate parameters by maximum likelihood
 
-```{r, echo=FALSE}
+```{r}
 bootstrap<-function(boot_number,k_on,k_off,kr,n_cells){
   est=matrix(, nrow = boot_number, ncol = 3)
   x=generate_data(k_on,k_off,kr,n_cells)
@@ -34,7 +34,7 @@ bootstrap<-function(boot_number,k_on,k_off,kr,n_cells){
 
 ## I) Small $k_{on}$ and $k_{off}$ case:
 
-```{r, echo=FALSE}
+```{r}
 #True k_on=k_off=0.1
 boot_number=500
 k_on=as.numeric(0.1)
