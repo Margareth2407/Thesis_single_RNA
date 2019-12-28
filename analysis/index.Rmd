@@ -13,3 +13,4 @@ Welcome to my research website.
 * [Data Simulation](Data_simulation.html)
 * [MLE estimation of parameters](MLE_estimates.html)
 * [Bootstrap of MLE parameters](MLE_bootstrap.html)
+* [Bootstrap variability of MLE parameters for different cell population](MLE_bootstrap_N_variability.html)
