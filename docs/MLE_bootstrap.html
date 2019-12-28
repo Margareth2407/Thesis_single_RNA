@@ -458,10 +458,10 @@ analysis/MLE.py
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreec80da2c05a0b834ffb051e8d556dc2b26d48a00etargetblankc80da2ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/c80da2c05a0b834ffb051e8d556dc2b26d48a00e" target="_blank">c80da2c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreeab73059f98ed74b5816c7fc37684c33936945d5atargetblankab73059a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/ab73059f98ed74b5816c7fc37684c33936945d5a" target="_blank">ab73059</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreec80da2c05a0b834ffb051e8d556dc2b26d48a00etargetblankc80da2ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreeab73059f98ed74b5816c7fc37684c33936945d5atargetblankab73059a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -470,6 +470,7 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    analysis/figure/
 
 Unstaged changes:
     Modified:   Data_sim.Rmd
@@ -496,10 +497,11 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <pre><code>Warning: package &#39;reticulate&#39; was built under R version 3.5.3</code></pre>
 <pre><code>Warning: package &#39;plotrix&#39; was built under R version 3.5.3</code></pre>
 <pre><code>Warning: package &#39;robustbase&#39; was built under R version 3.5.1</code></pre>
+<p>In previous section we have shown MLE estimates variability for datasets generated with the same parameters. Now we would want to investigate the sampling distribution of MLE using bootsrapp.</p>
 <p>Bootstrap procedure:</p>
 <ol style="list-style-type: decimal">
-<li><p>Generate 500 cells with given <span class="math inline">\(k_{on}\)</span>, <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_r\)</span> parameters</p></li>
-<li><p>For 500 iterations, sample with replacement bootstrapped data</p></li>
+<li><p>Generate one time 500 cells with given <span class="math inline">\(k_{on}\)</span>, <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_r\)</span> parameters</p></li>
+<li><p>For 500 iterations, bootstrap the sample with replacement</p></li>
 <li><p>Estimate parameters by maximum likelihood</p></li>
 </ol>
 <pre class="r"><code>bootstrap&lt;-function(boot_number,k_on,k_off,kr,n_cells){
@@ -523,44 +525,44 @@ hist(log(est[,1]),breaks=30, main=&quot;MLE estimate of k_on parameter,true k_on
 abline(v=log(0.1),col=&#39;red&#39;)</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;true k_on is 0.1;&quot;,&quot;k_on mean;&quot;,round(mean(est[,1],na.rm=TRUE),3),&quot;k_on median&quot;, round(median(est[,1],na.rm=TRUE),3),&quot;k_on st.deviation&quot;,round(sqrt(var(est[,1])),3))</code></pre>
-<pre><code>[1] &quot;true k_on is 0.1; k_on mean; 0.107 k_on median 0.106 k_on st.deviation 0.01&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 0.1; k_on mean; 0.11 k_on median 0.109 k_on st.deviation 0.01&quot;</code></pre>
 <pre class="r"><code>hist(log(est[,2]),breaks=30, main=&quot;MLE estimate of k_off parameter, true k_off=0.1&quot;)
 abline(v=log(0.1),col=&#39;red&#39;)</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;true k_off is 0.1;&quot;,&quot;k_off mean;&quot;,round(mean(est[,2],na.rm=TRUE),3),&quot;k_off median&quot;, round(median(est[,2],na.rm=TRUE),3),&quot;k_off st.deviation&quot;,round(sqrt(var(est[,2])),3))</code></pre>
-<pre><code>[1] &quot;true k_off is 0.1; k_off mean; 0.102 k_off median 0.101 k_off st.deviation 0.013&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 0.1; k_off mean; 0.112 k_off median 0.111 k_off st.deviation 0.012&quot;</code></pre>
 <pre class="r"><code>hist(log(est[,3]),breaks=30, main=&quot;MLE estimate of k_r parameter,true k_r=100&quot;)
 abline(v=log(100),col=&#39;red&#39;)</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;true k_r is 100;&quot;,&quot;k_r mean;&quot;,round(mean(est[,3],na.rm=TRUE),3),&quot;k_r median&quot;, round(median(est[,3],na.rm=TRUE),3),&quot;k_r st.deviation&quot;,round(sqrt(var(est[,3])),3))</code></pre>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 99.669 k_r median 99.698 k_r st.deviation 0.877&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 99.802 k_r median 99.826 k_r st.deviation 0.777&quot;</code></pre>
 </div>
 <div id="ii-large-k_on-and-k_off-case" class="section level2">
 <h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 10; k_on mean; 13.326 k_on median 12.457 k_on st.deviation 3.491&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 10; k_on mean; 8.146 k_on median 8.024 k_on st.deviation 1.514&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 10; k_off mean; 81.856 k_off median 23.204 k_off st.deviation 146.61&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 10; k_off mean; 5.848 k_off median 5.265 k_off st.deviation 3.064&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 298.298 k_r median 148.25 k_r st.deviation 379.876&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 83.463 k_r median 81.537 k_r st.deviation 10.192&quot;</code></pre>
 </div>
 <div id="iii-large-value-if-k_off-and-small-k_on-case" class="section level2">
 <h2>III) Large value if <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> case:</h2>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 1; k_on mean; 1.054 k_on median 1.057 k_on st.deviation 0.085&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 1; k_on mean; 1.054 k_on median 1.051 k_on st.deviation 0.099&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 10; k_off mean; 95.354 k_off median 43.412 k_off st.deviation 160.7&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 10; k_off mean; 14.419 k_off median 8.166 k_off st.deviation 46.742&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 822.565 k_r median 378.209 k_r st.deviation 1432.344&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 130.134 k_r median 81.182 k_r st.deviation 404.122&quot;</code></pre>
 </div>
 <div id="iv-small-value-if-k_off-and-big-k_on" class="section level2">
 <h2>IV) Small value if <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 10; k_on mean; 13.444 k_on median 12.522 k_on st.deviation 4.317&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 10; k_on mean; 13.441 k_on median 12.866 k_on st.deviation 3.601&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 1; k_off mean; 2.117 k_off median 1.619 k_off st.deviation 1.999&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 1; k_off mean; 2.209 k_off median 1.873 k_off st.deviation 1.637&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 103.577 k_r median 102.355 k_r st.deviation 4.946&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 104.362 k_r median 103.612 k_r st.deviation 4.515&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
