@@ -13,12 +13,13 @@ library(robustbase)
 source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.py")
 ```
 
+In previous section we have shown  MLE estimates variability for datasets generated with the same parameters. Now we would want to investigate the sampling distribution of MLE using bootsrapp. 
 
 Bootstrap procedure:
 
-1) Generate 500 cells with given $k_{on}$, $k_{off}$ and $k_r$ parameters
+1) Generate one time 500 cells with given $k_{on}$, $k_{off}$ and $k_r$ parameters
 
-2) For 500 iterations, sample with replacement bootstrapped data
+2) For 500 iterations, bootstrap the sample with replacement
 
 3) Estimate parameters by maximum likelihood
 
