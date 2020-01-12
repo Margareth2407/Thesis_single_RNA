@@ -16,6 +16,7 @@ This section is the continuation of bootstrap MLE estimates variability explorat
 
 ```{r}
 bootstrap<-function(boot_number,k_on,k_off,kr,n_cells){
+  #The function takes k_on,k_off,kr parameters as well as n_cells (number of cells) as input to generate once and then bootstrap it boot_number times. During each iteration of bootstrapping,  calculate MLE estimation for k_on,k_off,kr and store it in i'th row of est matrix
   est=matrix(, nrow = boot_number, ncol = 3)
   x=generate_data(k_on,k_off,kr,n_cells)
   for (i in 1:boot_number){
@@ -24,6 +25,7 @@ bootstrap<-function(boot_number,k_on,k_off,kr,n_cells){
   return(est)}
 
 MLE_func<-function(boot_number,k_on,k_off,kr,n_cells){
+  #Function does bootstrap function for different number of cells (input as a vector) in a loop and stores the result as list of est matrices
   MLE<-list()
   for (i in 1:length(n_cells)){
     est<-bootstrap(boot_number,k_on,k_off,kr,as.integer(n_cells[i]))
@@ -48,10 +50,48 @@ x3 <- MLE[[3]]
 x4 <- MLE[[4]]
 boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_on MLE bootstrap, true k_on=0.1")
 abline(h = log(0.1),col="red")
+paste("K_on standart deviations:","n=100:",round(sqrt(var(x1[,1],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,1],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,1],na.rm=TRUE)),3), "; n=1000:",round(sqrt(var(x4[,1],na.rm=TRUE)),3))
+
 boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_off MLE bootstrap, true k_off=0.1")
 abline(h = log(0.1),col="red")
+paste("k_off standart deviations:", "n=100:", round(sqrt(var(x1[,2],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,2],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,2],na.rm=TRUE)),3), "; n=1000: ", round(sqrt(var(x4[,2],na.rm=TRUE)),3))
+
 boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_r MLE bootstrap, true k_r=100")
 abline(h = log(100),col="red")
+paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,3],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,3],na.rm=TRUE)),3), "n=1000:", round(sqrt(var(x4[,3],na.rm=TRUE)),3))
+```
+
+
+```{r}
+par(mfrow=c(2,2))
+hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
+abline(v = log(0.1),col="red")
+hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
+abline(v = log(0.1),col="red")
+hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
+abline(v = log(0.1),col="red")
+hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
+abline(v = log(0.1),col="red")
+
+par(mfrow=c(2,2))
+hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
+abline(v = log(0.1),col="red")
+hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
+abline(v = log(0.1),col="red")
+hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
+abline(v = log(0.1),col="red")
+hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
+abline(v = log(0.1),col="red")
+
+par(mfrow=c(2,2))
+hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
+abline(v = log(100),col="red")
+hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
+abline(v = log(100),col="red")
+hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
+abline(v = log(100),col="red")
+hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
+abline(v = log(100),col="red")
 ```
 
 
@@ -69,13 +109,48 @@ x3 <- MLE[[3]]
 x4 <- MLE[[4]]
 boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_on MLE bootstrap, true k_on=10")
 abline(h = log(10),col="red")
+paste("K_on standart deviations:","n=100:",round(sqrt(var(x1[,1],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,1],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,1],na.rm=TRUE)),3), "; n=1000:",round(sqrt(var(x4[,1],na.rm=TRUE)),3))
+
 boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_off MLE bootstrap, true k_off=10")
 abline(h = log(10),col="red")
+paste("k_off standart deviations:", "n=100:", round(sqrt(var(x1[,2],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,2],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,2],na.rm=TRUE)),3), "; n=1000: ", round(sqrt(var(x4[,2],na.rm=TRUE)),3))
+
 boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_r MLE bootstrap, true k_r=100")
 abline(h = log(100),col="red")
+paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,3],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,3],na.rm=TRUE)),3), "n=1000:", round(sqrt(var(x4[,3],na.rm=TRUE)),3))
 ```
 
+```{r}
+par(mfrow=c(2,2))
+hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
+abline(v = log(10),col="red")
+hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
+abline(v = log(10),col="red")
+hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
+abline(v = log(10),col="red")
+hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
+abline(v = log(10),col="red")
 
+par(mfrow=c(2,2))
+hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
+abline(v = log(10),col="red")
+hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
+abline(v = log(10),col="red")
+hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
+abline(v = log(10),col="red")
+hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
+abline(v = log(10),col="red")
+
+par(mfrow=c(2,2))
+hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
+abline(v = log(100),col="red")
+hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
+abline(v = log(100),col="red")
+hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
+abline(v = log(100),col="red")
+hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
+abline(v = log(100),col="red")
+```
 
 ## III) Large value if $k_{off}$ and small $k_{on}$ case:
 
@@ -91,13 +166,49 @@ x3 <- MLE[[3]]
 x4 <- MLE[[4]]
 boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_on MLE bootstrap, true k_on=1")
 abline(h = log(1),col="red")
+paste("K_on standart deviations:","n=100:",round(sqrt(var(x1[,1],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,1],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,1],na.rm=TRUE)),3), "; n=1000:",round(sqrt(var(x4[,1],na.rm=TRUE)),3))
+
 boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_off MLE bootstrap, true k_off=10")
 abline(h = log(10),col="red")
+paste("k_off standart deviations:", "n=100:", round(sqrt(var(x1[,2],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,2],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,2],na.rm=TRUE)),3), "; n=1000: ", round(sqrt(var(x4[,2],na.rm=TRUE)),3))
+
 boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_r MLE bootstrap, true k_r=100")
 abline(h = log(100),col="red")
+paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,3],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,3],na.rm=TRUE)),3), "n=1000:", round(sqrt(var(x4[,3],na.rm=TRUE)),3))
 ```
 
 
+```{r}
+par(mfrow=c(2,2))
+hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
+abline(v = log(1),col="red")
+hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
+abline(v = log(1),col="red")
+hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
+abline(v = log(1),col="red")
+hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
+abline(v = log(1),col="red")
+
+par(mfrow=c(2,2))
+hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
+abline(v = log(10),col="red")
+hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
+abline(v = log(10),col="red")
+hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
+abline(v = log(10),col="red")
+hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
+abline(v = log(10),col="red")
+
+par(mfrow=c(2,2))
+hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
+abline(v = log(100),col="red")
+hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
+abline(v = log(100),col="red")
+hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
+abline(v = log(100),col="red")
+hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
+abline(v = log(100),col="red")
+```
 
 ## IV) Small value if $k_{off}$ and big $k_{on}$
 
@@ -114,13 +225,49 @@ x3 <- MLE[[3]]
 x4 <- MLE[[4]]
 boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_on MLE bootstrap, true k_on=10")
 abline(h = log(10),col="red")
+paste("K_on standart deviations:","n=100:",round(sqrt(var(x1[,1],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,1],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,1],na.rm=TRUE)),3), "; n=1000:",round(sqrt(var(x4[,1],na.rm=TRUE)),3))
+
 boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_off MLE bootstrap, true k_off=1")
 abline(h = log(1),col="red")
+paste("k_off standart deviations:", "n=100:", round(sqrt(var(x1[,2],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,2],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,2],na.rm=TRUE)),3), "; n=1000: ", round(sqrt(var(x4[,2],na.rm=TRUE)),3))
+
 boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_r MLE bootstrap, true k_r=100")
 abline(h = log(100),col="red")
+paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,3],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,3],na.rm=TRUE)),3), "n=1000:", round(sqrt(var(x4[,3],na.rm=TRUE)),3))
+
 ```
 
+```{r}
+par(mfrow=c(2,2))
+hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
+abline(v = log(10),col="red")
+hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
+abline(v = log(10),col="red")
+hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
+abline(v = log(10),col="red")
+hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
+abline(v = log(10),col="red")
 
+par(mfrow=c(2,2))
+hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
+abline(v = log(1),col="red")
+hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
+abline(v = log(1),col="red")
+hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
+abline(v = log(1),col="red")
+hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
+abline(v = log(1),col="red")
+
+par(mfrow=c(2,2))
+hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
+abline(v = log(100),col="red")
+hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
+abline(v = log(100),col="red")
+hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
+abline(v = log(100),col="red")
+hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
+abline(v = log(100),col="red")
+```
 
 
 
