@@ -344,7 +344,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-01-11
+<strong>Last updated:</strong> 2020-01-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -359,7 +359,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-<div id="workflowr-checks" class="panel-group">
+<div class="panel-group" id="workflowr-checks">
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -459,10 +459,10 @@ analysis/MLE.py
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreee6c5c3ca8a63a74f6655ee2656ab9ee9882699a0targetblanke6c5c3ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/e6c5c3ca8a63a74f6655ee2656ab9ee9882699a0" target="_blank">e6c5c3c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreedde5c3534d7ba46aeb9916f9c54459ca46b8c306targetblankdde5c35a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/dde5c3534d7ba46aeb9916f9c54459ca46b8c306" target="_blank">dde5c35</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreee6c5c3ca8a63a74f6655ee2656ab9ee9882699a0targetblanke6c5c3ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreedde5c3534d7ba46aeb9916f9c54459ca46b8c306targetblankdde5c35a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -473,10 +473,10 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/figure/
 
 Unstaged changes:
     Modified:   Data_sim.Rmd
+    Modified:   analysis/Data_simulation.Rmd
     Deleted:    analysis/MLE_bootstrap_N_variability.Rmd
 
 </code></pre>
@@ -511,6 +511,8 @@ Attaching package: &#39;zoo&#39;</code></pre>
 
     as.Date, as.Date.numeric</code></pre>
 <p>This section is the continuation of bootstrap MLE estimates variability exploration. This time we would want to know the MLE bootstrap variability as function of sample size.</p>
+<p>For each of the <span class="math inline">\(k_on\)</span>, <span class="math inline">\(k_off\)</span>, <span class="math inline">\(k_r\)</span> case we generate a dataset of 100,200,500 and 1000 cells and bootstrap the data 500 times to estimate parameters with MLE. Then we take a look at boxplot of MLE estimates and the standart deviation by sample size.<br />
+All plot below are in log scale.</p>
 <pre class="r"><code>bootstrap&lt;-function(boot_number,k_on,k_off,kr,n_cells){
   #The function takes k_on,k_off,kr parameters as well as n_cells (number of cells) as input to generate once and then bootstrap it boot_number times. During each iteration of bootstrapping,  calculate MLE estimation for k_on,k_off,kr and store it in i&#39;th row of est matrix
   est=matrix(, nrow = boot_number, ncol = 3)
@@ -529,6 +531,7 @@ MLE_func&lt;-function(boot_number,k_on,k_off,kr,n_cells){
   return(MLE)}</code></pre>
 <div id="i-small-k_on-and-k_off-case" class="section level2">
 <h2>I) Small <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
+<p>In the case of small <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span>, as we saw before, parameters are identifiable so the standart deviation is quite small even for small 100 cell dataset and diminish with the increase of sample size. It is true for <span class="math inline">\(k_{on}\)</span>,<span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_{r}\)</span> as well.</p>
 <pre class="r"><code>#True k_on=k_off=0.1
 boot_number=500
 k_on=as.numeric(0.1)
@@ -544,164 +547,47 @@ boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab=&quot;Number of cel
 abline(h = log(0.1),col=&quot;red&quot;)</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;K_on standart deviations:&quot;,&quot;n=100:&quot;,round(sqrt(var(x1[,1],na.rm=TRUE)),3), &quot;; n=200:&quot;,round(sqrt(var(x2[,1],na.rm=TRUE)),3), &quot;; n=500:&quot;, round(sqrt(var(x3[,1],na.rm=TRUE)),3), &quot;; n=1000:&quot;,round(sqrt(var(x4[,1],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 0.02 ; n=200: 0.015 ; n=500: 0.009 ; n=1000: 0.006&quot;</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 0.024 ; n=200: 0.018 ; n=500: 0.01 ; n=1000: 0.007&quot;</code></pre>
 <pre class="r"><code>boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab=&quot;Number of cells&quot;,names=c(&quot;100&quot;, &quot;200&quot;,&quot;500&quot;, &quot;1000&quot;),main=&quot;k_off MLE bootstrap, true k_off=0.1&quot;)
 abline(h = log(0.1),col=&quot;red&quot;)</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;k_off standart deviations:&quot;, &quot;n=100:&quot;, round(sqrt(var(x1[,2],na.rm=TRUE)),3), &quot;; n=200:&quot;,round(sqrt(var(x2[,2],na.rm=TRUE)),3), &quot;; n=500:&quot;, round(sqrt(var(x3[,2],na.rm=TRUE)),3), &quot;; n=1000: &quot;, round(sqrt(var(x4[,2],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 0.02 ; n=200: 0.016 ; n=500: 0.01 ; n=1000:  0.007&quot;</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 0.035 ; n=200: 0.019 ; n=500: 0.011 ; n=1000:  0.009&quot;</code></pre>
 <pre class="r"><code>boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab=&quot;Number of cells&quot;,names=c(&quot;100&quot;, &quot;200&quot;,&quot;500&quot;, &quot;1000&quot;),main=&quot;k_r MLE bootstrap, true k_r=100&quot;)
 abline(h = log(100),col=&quot;red&quot;)</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;k_r standart deviations:&quot;, &quot;n=100:&quot;, round(sqrt(var(x1[,3],na.rm=TRUE)),3), &quot;; n=200:&quot;,round(sqrt(var(x2[,3],na.rm=TRUE)),3), &quot;; n=500:&quot;, round(sqrt(var(x3[,3],na.rm=TRUE)),3), &quot;n=1000:&quot;, round(sqrt(var(x4[,3],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 1.808 ; n=200: 1.496 ; n=500: 0.918 n=1000: 0.587&quot;</code></pre>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=&quot; &quot;, main=&quot;k_on estimate distribution, n=100&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)
-hist(log(x2[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=200&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)
-hist(log(x3[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=500&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)
-hist(log(x4[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=1000&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=&quot; &quot;, main=&quot;k_off estimate distribution, n=100&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)
-hist(log(x2[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=200&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)
-hist(log(x3[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=500&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)
-hist(log(x4[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=1000&quot;)
-abline(v = log(0.1),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=&quot; &quot;, main=&quot;k_r estimate distribution, n=100&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x2[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=200&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x3[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=500&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x4[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=1000&quot;)
-abline(v = log(100),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 2.149 ; n=200: 1.15 ; n=500: 0.851 n=1000: 0.614&quot;</code></pre>
 </div>
 <div id="ii-large-k_on-and-k_off-case" class="section level2">
 <h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
+<p>For large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case, we see decrease in standart deviation, but the magnitude is quite high.</p>
+<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 5.176 ; n=200: 4.018 ; n=500: 1.325 ; n=1000: 3.179&quot;</code></pre>
+<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 171.074 ; n=200: 26.713 ; n=500: 2.126 ; n=1000:  104.445&quot;</code></pre>
+<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 422.566 ; n=200: 56.45 ; n=500: 8.047 n=1000: 503.54&quot;</code></pre>
+</div>
+<div id="iii-large-value-of-k_off-and-small-k_on-case" class="section level2">
+<h2>III) Large value of <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> case:</h2>
+<p>For small <span class="math inline">\(k_{on}\)</span> large <span class="math inline">\(k_{off}\)</span> we observe that as <span class="math inline">\(k_{on}\)</span> has small deviation and as we might remember from previous vignette, this is the only identifiable parameter in this scenario. Both <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_{r}\)</span> were unidentifiable, so we see high standart deviation even with big data size. We also experience some instability in standart deviation - sample size dependance as we sometimes see increase in standart deviation despite the sample size growth.</p>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 4.471 ; n=200: 5.731 ; n=500: 2.824 ; n=1000: 1.388&quot;</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 0.219 ; n=200: 0.108 ; n=500: 0.088 ; n=1000: 0.062&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 258.397 ; n=200: 137 ; n=500: 40.657 ; n=1000:  3.63&quot;</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 147.481 ; n=200: 1.981 ; n=500: 6.687 ; n=1000:  1.416&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 1046.286 ; n=200: 515.671 ; n=500: 88.526 n=1000: 11.262&quot;</code></pre>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=&quot; &quot;, main=&quot;k_on estimate distribution, n=100&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x2[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=200&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x3[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=500&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x4[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=1000&quot;)
-abline(v = log(10),col=&quot;red&quot;)</code></pre>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 1000.357 ; n=200: 14.821 ; n=500: 52 n=1000: 10.387&quot;</code></pre>
+</div>
+<div id="iv-small-value-of-k_off-and-big-k_on" class="section level2">
+<h2>IV) Small value of <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
+<p>Small value if <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span> scenario has identifiable parameters, so alike with small value <span class="math inline">\(k_{on}\)</span>, <span class="math inline">\(k_{on}\)</span> case we observe reasonable standart deviation values, especially for bigger dataset as well as decrease in standart deviation size.</p>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=&quot; &quot;, main=&quot;k_off estimate distribution, n=100&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x2[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=200&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x3[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=500&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x4[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=1000&quot;)
-abline(v = log(10),col=&quot;red&quot;)</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 18.296 ; n=200: 12.624 ; n=500: 12.3 ; n=1000: 1.138&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=&quot; &quot;, main=&quot;k_r estimate distribution, n=100&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x2[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=200&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x3[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=500&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x4[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=1000&quot;)
-abline(v = log(100),col=&quot;red&quot;)</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 19.307 ; n=200: 29.104 ; n=500: 30.154 ; n=1000:  0.168&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="iii-large-value-if-k_off-and-small-k_on-case" class="section level2">
-<h2>III) Large value if <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> case:</h2>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 0.167 ; n=200: 0.139 ; n=500: 0.091 ; n=1000: 0.077&quot;</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 96.165 ; n=200: 145.061 ; n=500: 156.922 ; n=1000:  59.772&quot;</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 794.153 ; n=200: 1122.787 ; n=500: 1408.998 n=1000: 536.152&quot;</code></pre>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=&quot; &quot;, main=&quot;k_on estimate distribution, n=100&quot;)
-abline(v = log(1),col=&quot;red&quot;)
-hist(log(x2[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=200&quot;)
-abline(v = log(1),col=&quot;red&quot;)
-hist(log(x3[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=500&quot;)
-abline(v = log(1),col=&quot;red&quot;)
-hist(log(x4[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=1000&quot;)
-abline(v = log(1),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=&quot; &quot;, main=&quot;k_off estimate distribution, n=100&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x2[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=200&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x3[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=500&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x4[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=1000&quot;)
-abline(v = log(10),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=&quot; &quot;, main=&quot;k_r estimate distribution, n=100&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x2[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=200&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x3[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=500&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x4[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=1000&quot;)
-abline(v = log(100),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="iv-small-value-if-k_off-and-big-k_on" class="section level2">
-<h2>IV) Small value if <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 14.925 ; n=200: 12.525 ; n=500: 4.259 ; n=1000: 1.862&quot;</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-9-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 31.94 ; n=200: 14.172 ; n=500: 1.13 ; n=1000:  0.346&quot;</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-9-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 41.582 ; n=200: 13.01 ; n=500: 2.861 n=1000: 1.769&quot;</code></pre>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=&quot; &quot;, main=&quot;k_on estimate distribution, n=100&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x2[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=200&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x3[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=500&quot;)
-abline(v = log(10),col=&quot;red&quot;)
-hist(log(x4[,1]), xlab=&quot; &quot;, main =&quot;k_on estimate distribution, n=1000&quot;)
-abline(v = log(10),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=&quot; &quot;, main=&quot;k_off estimate distribution, n=100&quot;)
-abline(v = log(1),col=&quot;red&quot;)
-hist(log(x2[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=200&quot;)
-abline(v = log(1),col=&quot;red&quot;)
-hist(log(x3[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=500&quot;)
-abline(v = log(1),col=&quot;red&quot;)
-hist(log(x4[,2]), xlab=&quot; &quot;, main =&quot;k_off estimate distribution, n=1000&quot;)
-abline(v = log(1),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=&quot; &quot;, main=&quot;k_r estimate distribution, n=100&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x2[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=200&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x3[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=500&quot;)
-abline(v = log(100),col=&quot;red&quot;)
-hist(log(x4[,3]), xlab=&quot; &quot;, main =&quot;k_r estimate distribution, n=1000&quot;)
-abline(v = log(100),col=&quot;red&quot;)</code></pre>
-<p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 24.156 ; n=200: 31.249 ; n=500: 27.157 n=1000: 1.173&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
