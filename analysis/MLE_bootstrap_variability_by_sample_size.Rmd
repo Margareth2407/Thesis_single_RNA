@@ -14,6 +14,9 @@ source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.
 
 This section is the continuation of bootstrap MLE estimates variability exploration. This time we would want to know the MLE bootstrap variability as function of sample size.
 
+For each of the $k_on$, $k_off$, $k_r$ case we generate a dataset of 100,200,500 and 1000 cells and bootstrap the data 500 times to estimate parameters with MLE. Then we take a look at boxplot of MLE estimates and the standart deviation by sample size.  
+All plot below are in log scale.
+
 ```{r}
 bootstrap<-function(boot_number,k_on,k_off,kr,n_cells){
   #The function takes k_on,k_off,kr parameters as well as n_cells (number of cells) as input to generate once and then bootstrap it boot_number times. During each iteration of bootstrapping,  calculate MLE estimation for k_on,k_off,kr and store it in i'th row of est matrix
@@ -35,6 +38,8 @@ MLE_func<-function(boot_number,k_on,k_off,kr,n_cells){
 
 
 ## I) Small $k_{on}$ and $k_{off}$ case:
+
+In the case of small $k_{on}$ and $k_{off}$, as we saw before, parameters are identifiable so the standart deviation is quite small even for small 100 cell dataset and diminish with the increase of sample size. It is true for $k_{on}$,$k_{off}$ and $k_{r}$ as well.
 
 ```{r}
 #True k_on=k_off=0.1
@@ -62,40 +67,9 @@ paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3
 ```
 
 
-```{r}
-par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
-abline(v = log(0.1),col="red")
-hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
-abline(v = log(0.1),col="red")
-hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
-abline(v = log(0.1),col="red")
-hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
-abline(v = log(0.1),col="red")
-
-par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
-abline(v = log(0.1),col="red")
-hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
-abline(v = log(0.1),col="red")
-hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
-abline(v = log(0.1),col="red")
-hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
-abline(v = log(0.1),col="red")
-
-par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
-abline(v = log(100),col="red")
-hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
-abline(v = log(100),col="red")
-hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
-abline(v = log(100),col="red")
-hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
-abline(v = log(100),col="red")
-```
-
-
 ## II) Large $k_{on}$ and $k_{off}$ case: 
+
+For large $k_{on}$ and $k_{off}$ case, we see decrease in standart deviation, but the magnitude is quite high.
 
 ```{r,echo=FALSE}
 #True k_on=k_off=10
@@ -120,39 +94,10 @@ abline(h = log(100),col="red")
 paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,3],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,3],na.rm=TRUE)),3), "n=1000:", round(sqrt(var(x4[,3],na.rm=TRUE)),3))
 ```
 
-```{r}
-par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
-abline(v = log(10),col="red")
-hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
-abline(v = log(10),col="red")
-hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
-abline(v = log(10),col="red")
-hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
-abline(v = log(10),col="red")
 
-par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
-abline(v = log(10),col="red")
-hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
-abline(v = log(10),col="red")
-hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
-abline(v = log(10),col="red")
-hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
-abline(v = log(10),col="red")
+## III) Large value of $k_{off}$ and small $k_{on}$ case:
 
-par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
-abline(v = log(100),col="red")
-hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
-abline(v = log(100),col="red")
-hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
-abline(v = log(100),col="red")
-hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
-abline(v = log(100),col="red")
-```
-
-## III) Large value if $k_{off}$ and small $k_{on}$ case:
+For small $k_{on}$ large $k_{off}$ we observe that as $k_{on}$ has small deviation and as we might remember from previous vignette, this is the only identifiable parameter in this scenario. Both  $k_{off}$ and $k_{r}$ were unidentifiable, so we see high standart deviation even with big data size. We also experience some instability in standart deviation - sample size dependance as we sometimes see increase in standart deviation despite the sample size growth.
 
 ```{r, echo=FALSE}
 #True k_on=1, k_off=10
@@ -178,39 +123,9 @@ paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3
 ```
 
 
-```{r}
-par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
-abline(v = log(1),col="red")
-hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
-abline(v = log(1),col="red")
-hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
-abline(v = log(1),col="red")
-hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
-abline(v = log(1),col="red")
+## IV) Small value of $k_{off}$ and big $k_{on}$
 
-par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
-abline(v = log(10),col="red")
-hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
-abline(v = log(10),col="red")
-hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
-abline(v = log(10),col="red")
-hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
-abline(v = log(10),col="red")
-
-par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
-abline(v = log(100),col="red")
-hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
-abline(v = log(100),col="red")
-hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
-abline(v = log(100),col="red")
-hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
-abline(v = log(100),col="red")
-```
-
-## IV) Small value if $k_{off}$ and big $k_{on}$
+Small value if $k_{off}$ and big $k_{on}$ scenario has identifiable parameters, so alike with small value $k_{on}$, $k_{on}$ case we observe reasonable standart deviation values, especially for bigger dataset as well as decrease in standart deviation size. 
 
 ```{r, echo=FALSE}
 #True k_on=10, k_off=1
@@ -235,38 +150,6 @@ boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab="Number of cells",n
 abline(h = log(100),col="red")
 paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,3],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,3],na.rm=TRUE)),3), "n=1000:", round(sqrt(var(x4[,3],na.rm=TRUE)),3))
 
-```
-
-```{r}
-par(mfrow=c(2,2))
-hist(log(x1[,1]), xlab=" ", main="k_on estimate distribution, n=100")
-abline(v = log(10),col="red")
-hist(log(x2[,1]), xlab=" ", main ="k_on estimate distribution, n=200")
-abline(v = log(10),col="red")
-hist(log(x3[,1]), xlab=" ", main ="k_on estimate distribution, n=500")
-abline(v = log(10),col="red")
-hist(log(x4[,1]), xlab=" ", main ="k_on estimate distribution, n=1000")
-abline(v = log(10),col="red")
-
-par(mfrow=c(2,2))
-hist(log(x1[,2]), xlab=" ", main="k_off estimate distribution, n=100")
-abline(v = log(1),col="red")
-hist(log(x2[,2]), xlab=" ", main ="k_off estimate distribution, n=200")
-abline(v = log(1),col="red")
-hist(log(x3[,2]), xlab=" ", main ="k_off estimate distribution, n=500")
-abline(v = log(1),col="red")
-hist(log(x4[,2]), xlab=" ", main ="k_off estimate distribution, n=1000")
-abline(v = log(1),col="red")
-
-par(mfrow=c(2,2))
-hist(log(x1[,3]), xlab=" ", main="k_r estimate distribution, n=100")
-abline(v = log(100),col="red")
-hist(log(x2[,3]), xlab=" ", main ="k_r estimate distribution, n=200")
-abline(v = log(100),col="red")
-hist(log(x3[,3]), xlab=" ", main ="k_r estimate distribution, n=500")
-abline(v = log(100),col="red")
-hist(log(x4[,3]), xlab=" ", main ="k_r estimate distribution, n=1000")
-abline(v = log(100),col="red")
 ```
 
 
