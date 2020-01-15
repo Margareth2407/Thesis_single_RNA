@@ -82,14 +82,15 @@ plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log 
 points(log(0.1),log(100),col="red",pch = 19,font=4)
 ```
 
-Small $k_{on}$ and $k_{off}$ leads to bimodal distribution. As we see from histograms, mean and median MLE estimates are centered around true value.
+Small $k_{on}$ and $k_{off}$ leads to bimodal distribution where population of cells with high expression level is visibly separated from population of cells without expression. Such separation allows us to identify parameters very clearly and we will see more  proofs of that in a future materials. Notice how both mean and median of the MLE estimates are close to the true value.
+
 
 ## II) Large $k_{on}$ and $k_{off}$ case: 
 
 ```{r,echo=FALSE}
-#True k_on=k_off=10
-k_on=as.numeric(10)
-k_off=as.numeric(10)
+#True k_on=k_off=50
+k_on=as.numeric(50)
+k_off=as.numeric(50)
 kr=as.numeric(100)
 est=matrix(, nrow = n_estimates, ncol = 3)
 for (i in 1:n_estimates){
@@ -97,11 +98,11 @@ for (i in 1:n_estimates){
   est[i,]=MaximumLikelihood(x)
 }
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=10, log scale", xlab="k_on MLE estimate")
-abline(v=log(10),col='red')
+abline(v=log(50),col='red')
 paste("true k_on is 10;","k_on mean",round(mean(est[,1],na.rm=TRUE),3),"k_on median",round(median(est[,1],na.rm=TRUE),3))
 
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=10, log scale", xlab="k_off MLE estimate")
-abline(v=log(10),col='red')
+abline(v=log(50),col='red')
 paste("true k_off is 10;","k_off mean",round(mean(est[,2],na.rm=TRUE),3),"k_off median",round(median(est[,2],na.rm=TRUE),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100, log scale", xlab="k_r MLE estimate")
@@ -109,16 +110,17 @@ abline(v=log(100),col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 
 plot(log(est[,1]),log(est[,2]), xlab="k_on",ylab="k_off",main="k_on vs k_off, log scale")
-points(log(10),log(10),col="red",pch = 19,font=4)
+points(log(50),log(50),col="red",pch = 19,font=4)
 plot(log(est[,1]),log(est[,3]), xlab="k_on",ylab="k_r",main="k_on vs k_r, log scale")
-points(log(10),log(100),col="red",pch = 19,font=4)
+points(log(50),log(100),col="red",pch = 19,font=4)
 plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log scale")
-points(log(10),log(100),col="red",pch = 19,font=4)
+points(log(50),log(100),col="red",pch = 19,font=4)
 ```
 
-Large $k_{on}$ and $k_{off}$ case lead to Poisson or negative binomial distribution and as we can see parameters are not identifiable.  
+Large $k_{on}$ and $k_{off}$ case lead to Poisson or negative binomial distribution which means big population of highly expressed cells and small population of non-expressed cells. If cell quickly shift between active and non-active states, we cannot distiguish that from cell being constantly in active state which leads to unidentifiable solution. And indeed if we take a look on MLE estimates histogramms, means and medians we can observe that estimated parameters are not close to the true value in majority of cases.
 
-## III) Large value if $k_{off}$ and small $k_{on}$ case:
+
+## III) Large value of $k_{off}$ and small $k_{on}$ case:
 
 ```{r, echo=FALSE}
 #True k_on=1, k_off=10
@@ -151,9 +153,10 @@ plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log 
 points(log(10),log(100),col="red",pch = 19,font=4)
 ```
 
-k_on parameter being estimated correctly, while k_off and k_r are non-identifiable.
+Large value if $k_{off}$ and small $k_{on}$ scenario results in majority of cells having zero or low expression levels. MLE method estimates $k_{on}$ accurately by both mean and median while $k_{off}$ and $k_{r}$ are unidentifiable.
 
-## IV) Small value if $k_{off}$ and big $k_{on}$
+
+## IV) Small value of $k_{off}$ and big $k_{on}$
 
 ```{r, echo=FALSE}
 #True k_on=10, k_off=1
@@ -185,7 +188,7 @@ plot(log(est[,2]),log(est[,3]), xlab="k_off",ylab="k_r",main="k_off vs k_r, log 
 points(log(1),log(100),col="red",pch = 19,font=4)
 ```
 
-
+Small value of $k_{off}$ and big $k_{on}$ produces a population of cells where majority of observation have high expression level  with some quantity oflowly expressed cells (we see it as a long left tail on the distribution graph). Even though the population is not clearly separated as in case I (small $k_{on}/k_{off}$), we still are able to correctly estimate parameters by MLE method. The solution is not perfect, as we still see some overestimation of parameters on the histogramm, but the meadian is quite close to the true value.
 
 Ref.
 https://www.nature.com/articles/s41586-018-0836-1
