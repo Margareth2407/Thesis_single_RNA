@@ -344,7 +344,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-12-25
+<strong>Last updated:</strong> 2020-01-14
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -435,10 +435,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreee49470d1378513a7d1fb357480f050eb545077f8targetblanke49470da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/e49470d1378513a7d1fb357480f050eb545077f8" target="_blank">e49470d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree5526ae57a76359f2af97bfea5856ef809a86fb5ctargetblank5526ae5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/5526ae57a76359f2af97bfea5856ef809a86fb5c" target="_blank">5526ae5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreee49470d1378513a7d1fb357480f050eb545077f8targetblanke49470da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree5526ae57a76359f2af97bfea5856ef809a86fb5ctargetblank5526ae5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -447,20 +447,13 @@ Great! You are using Git for version control. Tracking code development and conn
 Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
-    Ignored:    .Rproj.user/
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
-
-Untracked files:
-    Untracked:  analysis/MLE_bootstrap.py
-    Untracked:  analysis/MLE_bootstrap_N_variability.Rmd
 
 Unstaged changes:
     Modified:   Data_sim.Rmd
     Deleted:    analysis/Data_sim.Rmd
-    Modified:   analysis/MLE.py
-    Modified:   analysis/MLE_bootstrap.Rmd
-    Modified:   analysis/MLE_estimates.Rmd
+    Deleted:    analysis/MLE_bootstrap_N_variability.Rmd
 
 </code></pre>
 <p>
@@ -480,8 +473,7 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 </div>
 </div>
 </div>
-<div id="data-generation-for-one-gene-under-two-state-model-with-different-parameters" class="section level2">
-<h2>Data generation for one gene under two-state model with different parameters</h2>
+<p>##Data generation for one gene under two-state model with different parameters</p>
 <p>Three-parameter model for stochastic gene expression assumes that cell can be either in “on” and “off” transcription states which is characterized by Beta distribution.</p>
 <p>While the cell is in “on” mode, mRNA is transcribed with <span class="math inline">\(k_r\)</span> rate, so mRNA expression follows two-state model of gene expression, where</p>
 <p><span class="math inline">\(x|k_r,p\sim Poisson(k_rp)\)</span> and <span class="math inline">\(p|k_{on},k_{off}\sim Beta(k_{on},k_{off})\)</span></p>
@@ -491,12 +483,10 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <pre class="r"><code>generate_one_gene&lt;-function(k_on,k_off,k_r,n){
   p=rbeta(n,k_on,k_off)
   x=rpois(n,p*k_r)
-  return(x)
-}</code></pre>
+  return(x)}</code></pre>
 <p>Different parameters of <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> lead to different mRNA copy number distribution</p>
-<ol style="list-style-type: upper-roman">
-<li>Small <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> lead to bimodal distribution (large number of cells have low expression with few cells with high expression):</li>
-</ol>
+<div id="i-small-k_on-and-k_off-lead-to-bimodal-distribution-large-number-of-cells-have-low-expression-with-few-cells-with-high-expression" class="section level2">
+<h2>I) Small <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> lead to bimodal distribution (large number of cells have low expression with few cells with high expression):</h2>
 <pre class="r"><code>#Fixed k=100 as in Munsky paper the Fig.2
 par(mfrow=c(2,2))
 k=c(0.001,0.01,0.1,0.5)
@@ -505,9 +495,9 @@ for (i in k){
   name=paste(&#39;k_on,k_off=&#39;,i)
   hist(x,xlim=c(0,200),ylim=c(0,0.06),freq=FALSE,main=name)}</code></pre>
 <p><img src="figure/Data_simulation.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<ol start="2" style="list-style-type: upper-roman">
-<li>Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> lead to Poisson or negative binomial distribution:</li>
-</ol>
+</div>
+<div id="ii-large-k_on-and-k_off-lead-to-poisson-or-negative-binomial-distribution" class="section level2">
+<h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> lead to Poisson or negative binomial distribution:</h2>
 <pre class="r"><code>par(mfrow=c(2,2))
 k=c(2,10,100,1000)
 for (i in k){
@@ -515,9 +505,9 @@ for (i in k){
   name=paste(&#39;k_on,k_off=&#39;,i)
   hist(x,xlim=c(0,200),ylim=c(0,0.06),freq=FALSE,main=name)}</code></pre>
 <p><img src="figure/Data_simulation.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<ol start="3" style="list-style-type: upper-roman">
-<li>Large value if <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span></li>
-</ol>
+</div>
+<div id="iii-large-value-if-k_off-and-small-k_on" class="section level2">
+<h2>III) Large value if <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span></h2>
 <pre class="r"><code>par(mfrow=c(1,2))
 k=list(c(0.1,1),c(1,10))
 for (i in k){
@@ -525,9 +515,9 @@ for (i in k){
   name=paste(&quot;k_on&quot;,i[1],&#39;k_off&#39;,i[2])
   hist(x,xlim=c(0,200),ylim=c(0,0.1),freq=FALSE,main=name)}</code></pre>
 <p><img src="figure/Data_simulation.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<ol start="4" style="list-style-type: upper-roman">
-<li>Small value if <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></li>
-</ol>
+</div>
+<div id="iv-small-value-if-k_off-and-big-k_on" class="section level2">
+<h2>IV) Small value if <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
 <pre class="r"><code>par(mfrow=c(1,2))
 k=list(c(1,0.1),c(10,1))
 for (i in k){
