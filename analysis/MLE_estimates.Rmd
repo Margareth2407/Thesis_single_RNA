@@ -99,11 +99,11 @@ for (i in 1:n_estimates){
 }
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=50, log scale", xlab="k_on MLE estimate")
 abline(v=log(50),col='red')
-paste("true k_on is 10;","k_on mean",round(mean(est[,1],na.rm=TRUE),3),"k_on median",round(median(est[,1],na.rm=TRUE),3))
+paste("true k_on is 50;","k_on mean",round(mean(est[,1],na.rm=TRUE),3),"k_on median",round(median(est[,1],na.rm=TRUE),3))
 
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=50, log scale", xlab="k_off MLE estimate")
 abline(v=log(50),col='red')
-paste("true k_off is 10;","k_off mean",round(mean(est[,2],na.rm=TRUE),3),"k_off median",round(median(est[,2],na.rm=TRUE),3))
+paste("true k_off is 50;","k_off mean",round(mean(est[,2],na.rm=TRUE),3),"k_off median",round(median(est[,2],na.rm=TRUE),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs, true k_r=100, log scale", xlab="k_r MLE estimate")
 abline(v=log(100),col='red')
