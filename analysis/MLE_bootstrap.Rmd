@@ -70,11 +70,11 @@ est<-bootstrap(boot_number,k_on,k_off,kr,n_cells)
 
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter, true k_on=50")
 abline(v=log(50),col='red')
-paste("true k_on is 10;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1],na.rm=TRUE)),3))
+paste("true k_on is 50;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1],na.rm=TRUE)),3))
 
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, true k_off=50")
 abline(v=log(50),col='red')
-paste("true k_off is 10;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2],na.rm=TRUE)),3))
+paste("true k_off is 50;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2],na.rm=TRUE)),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter, true k_r=100")
 abline(v=log(100),col='red')
