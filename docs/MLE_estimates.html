@@ -344,7 +344,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-01-14
+<strong>Last updated:</strong> 2020-01-15
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -459,10 +459,10 @@ analysis/MLE.py
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreecd0b5c9041db5583da4be1874607cb1df6b4a820targetblankcd0b5c9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/cd0b5c9041db5583da4be1874607cb1df6b4a820" target="_blank">cd0b5c9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree1a2e6aa5eba1ecf6d350d9be627a138f805e3dectargetblank1a2e6aaa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/1a2e6aa5eba1ecf6d350d9be627a138f805e3dec" target="_blank">1a2e6aa</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreecd0b5c9041db5583da4be1874607cb1df6b4a820targetblankcd0b5c9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree1a2e6aa5eba1ecf6d350d9be627a138f805e3dectargetblank1a2e6aaa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -473,12 +473,12 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/figure/
 
 Unstaged changes:
     Modified:   Data_sim.Rmd
     Deleted:    analysis/Data_sim.Rmd
     Deleted:    analysis/MLE_bootstrap_N_variability.Rmd
-    Modified:   analysis/MLE_bootstrap_variability_by_sample_size.Rmd
 
 </code></pre>
 <p>
@@ -521,44 +521,44 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <div id="i-small-k_on-and-k_off-case" class="section level2">
 <h2>I) Small <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 0.1; k_on mean 0.102 k_on median 0.1&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 0.1; k_on mean 0.101 k_on median 0.099&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 0.1; k_off mean 0.101 k_off median 0.099&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 0.1; k_off mean 0.101 k_off median 0.098&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean 99.954 k_r median 99.931&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean 100.068 k_r median 100.016&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-2-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-2-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Small <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> leads to bimodal distribution where population of cells with high expression level is visibly separated from population of cells without expression. Such separation allows us to identify parameters very clearly and we will see more proofs of that in a future materials. Notice how both mean and median of the MLE estimates are close to the true value.</p>
 </div>
 <div id="ii-large-k_on-and-k_off-case" class="section level2">
 <h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 10; k_on mean 42.745 k_on median 30.747&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 50; k_on mean 44.97 k_on median 35.337&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 10; k_off mean 107.632 k_off median 13.999&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 50; k_off mean 124.038 k_off median 18.503&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean 125.306 k_r median 71.99&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean 135.279 k_r median 74.731&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-3-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-3-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case lead to Poisson or negative binomial distribution which means big population of highly expressed cells and small population of non-expressed cells. If cell quickly shift between active and non-active states, we cannot distiguish that from cell being constantly in active state which leads to unidentifiable solution. And indeed if we take a look on MLE estimates histogramms, means and medians we can observe that estimated parameters are not close to the true value in majority of cases.</p>
 </div>
 <div id="iii-large-value-of-k_off-and-small-k_on-case" class="section level2">
 <h2>III) Large value of <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> case:</h2>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 1; k_on mean 0.98 k_on median 0.953&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 1; k_on mean 0.98 k_on median 0.954&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 10; k_off mean 36.621 k_off median 6.385&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 10; k_off mean 44.467 k_off median 6.995&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean 305.014 k_r median 70.686&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean 364.979 k_r median 75.556&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-4-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Large value if <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> scenario results in majority of cells having zero or low expression levels. MLE method estimates <span class="math inline">\(k_{on}\)</span> accurately by both mean and median while <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_{r}\)</span> are unidentifiable.</p>
 </div>
 <div id="iv-small-value-of-k_off-and-big-k_on" class="section level2">
 <h2>IV) Small value of <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 10; k_on mean 13.895 k_on median 10&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 10; k_on mean 14.426 k_on median 10&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 1; k_off mean 4.483 k_off median 1.067&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 1; k_off mean 6.253 k_off median 1.129&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean 101.261 k_r median 99.632&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean 102.191 k_r median 99.923&quot;</code></pre>
 <p><img src="figure/MLE_estimates.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimates.Rmd/unnamed-chunk-5-6.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Small value of <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span> produces a population of cells where majority of observation have high expression level with some quantity oflowly expressed cells (we see it as a long left tail on the distribution graph). Even though the population is not clearly separated as in case I (small <span class="math inline">\(k_{on}/k_{off}\)</span>), we still are able to correctly estimate parameters by MLE method. The solution is not perfect, as we still see some overestimation of parameters on the histogramm, but the meadian is quite close to the true value.</p>
 <p>Ref. <a href="https://www.nature.com/articles/s41586-018-0836-1" class="uri">https://www.nature.com/articles/s41586-018-0836-1</a></p>
