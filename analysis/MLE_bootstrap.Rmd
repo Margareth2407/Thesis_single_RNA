@@ -46,45 +46,44 @@ est<-bootstrap(boot_number,k_on,k_off,kr,n_cells)
 
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter,true k_on=0.1")
 abline(v=log(0.1),col='red')
-paste("true k_on is 0.1;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1])),3))
+paste("true k_on is 0.1;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1],na.rm=TRUE)),3))
 
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, true k_off=0.1")
 abline(v=log(0.1),col='red')
-paste("true k_off is 0.1;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2])),3))
+paste("true k_off is 0.1;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2],na.rm=TRUE)),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,true k_r=100")
 abline(v=log(100),col='red')
-paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3])),3))
+paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3],na.rm=TRUE)),3))
 ```
 
-
+As we saw in previous vignette, this small $k_{on}$, $k_{off}$ scenario has clearly identifiable solutions which is confirmed by boorstrap as we see again mean, median are close to the true value and standart deviation is small as well.
 
 ## II) Large $k_{on}$ and $k_{off}$ case: 
 
 ```{r, echo=FALSE}
-#True k_on=k_off=10
-k_on=as.numeric(10)
-k_off=as.numeric(10)
+#True k_on=k_off=50
+k_on=as.numeric(50)
+k_off=as.numeric(50)
 kr=as.numeric(100)
 est<-bootstrap(boot_number,k_on,k_off,kr,n_cells)
 
-hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter, true k_on=10")
-abline(v=log(10),col='red')
-paste("true k_on is 10;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1])),3))
+hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter, true k_on=50")
+abline(v=log(50),col='red')
+paste("true k_on is 10;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1],na.rm=TRUE)),3))
 
-hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, true k_off=10")
-abline(v=log(10),col='red')
-paste("true k_off is 10;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2])),3))
+hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, true k_off=50")
+abline(v=log(50),col='red')
+paste("true k_off is 10;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2],na.rm=TRUE)),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter, true k_r=100")
 abline(v=log(100),col='red')
-paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3])),3))
+paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3],na.rm=TRUE)),3))
 ```
 
+Large $k_{on}$ and $k_{off}$ as said earlier produces a dataset with unidentifiable parameters as we do not approach true values with neigher mean or median with huge standart deviation.
 
-
-## III) Large value if $k_{off}$ and small $k_{on}$ case:
-
+## III) Large value of $k_{off}$ and small $k_{on}$ case:
 
 ```{r, echo=FALSE}
 #True k_on=1, k_off=10
@@ -96,20 +95,20 @@ est<-bootstrap(boot_number,k_on,k_off,kr,n_cells)
 
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter, true k_on=1")
 abline(v=log(1),col='red')
-paste("true k_on is 1;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1])),3))
+paste("true k_on is 1;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1],na.rm=TRUE)),3))
 
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, true k_off=10")
 abline(v=log(10),col='red')
-paste("true k_off is 10;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2])),3))
+paste("true k_off is 10;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2],na.rm=TRUE)),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter, true k_r=100")
 abline(v=log(100),col='red')
-paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3])),3))
+paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3],na.rm=TRUE)),3))
 ```
 
+Big $k_{off}$ and small $k_{on}$ values allow us to identify $k_{on}$ parameter, but prevent correct estimation of $k_{off}$ and $k_{r}$. We see high standart deviation of the parameters as well as some huge outliers.
 
-## IV) Small value if $k_{off}$ and big $k_{on}$
-
+## IV) Small value of $k_{off}$ and big $k_{on}$
 
 ```{r,echo=FALSE}
 #True k_on=10, k_off=1
@@ -120,14 +119,16 @@ est<-bootstrap(boot_number,k_on,k_off,kr,n_cells)
 
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter, true k_on=10")
 abline(v=log(10),col='red')
-paste("true k_on is 10;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1])),3))
+paste("true k_on is 10;","k_on mean;",round(mean(est[,1],na.rm=TRUE),3),"k_on median", round(median(est[,1],na.rm=TRUE),3),"k_on st.deviation",round(sqrt(var(est[,1],na.rm=TRUE)),3))
 
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, true k_off=1")
 abline(v=log(1),col='red')
-paste("true k_off is 1;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2])),3))
+paste("true k_off is 1;","k_off mean;",round(mean(est[,2],na.rm=TRUE),3),"k_off median", round(median(est[,2],na.rm=TRUE),3),"k_off st.deviation",round(sqrt(var(est[,2],na.rm=TRUE)),3))
 
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter, true k_r=100")
 abline(v=log(100),col='red')
-paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3])),3))
+paste("true k_r is 100;","k_r mean;",round(mean(est[,3],na.rm=TRUE),3),"k_r median", round(median(est[,3],na.rm=TRUE),3),"k_r st.deviation",round(sqrt(var(est[,3],na.rm=TRUE)),3))
 ```
+
+We again observe that parameters get estimated quite accurately, even though not as good as in case I. Standart deviation is reasonable, while mean and median approach true value.
 
