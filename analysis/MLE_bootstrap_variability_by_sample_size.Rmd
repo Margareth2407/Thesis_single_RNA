@@ -72,21 +72,21 @@ paste("k_r standart deviations:", "n=100:", round(sqrt(var(x1[,3],na.rm=TRUE)),3
 For large $k_{on}$ and $k_{off}$ case, we see decrease in standart deviation, but the magnitude is quite high.
 
 ```{r,echo=FALSE}
-#True k_on=k_off=10
-k_on=as.numeric(10)
-k_off=as.numeric(10)
+#True k_on=k_off=50
+k_on=as.numeric(50)
+k_off=as.numeric(50)
 kr=as.numeric(100)
 MLE<-MLE_func(boot_number,k_on,k_off,kr,n_cells)
 x1 <- MLE[[1]]
 x2 <- MLE[[2]]
 x3 <- MLE[[3]]
 x4 <- MLE[[4]]
-boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_on MLE bootstrap, true k_on=10")
-abline(h = log(10),col="red")
+boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_on MLE bootstrap, true k_on=50")
+abline(h = log(50),col="red")
 paste("K_on standart deviations:","n=100:",round(sqrt(var(x1[,1],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,1],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,1],na.rm=TRUE)),3), "; n=1000:",round(sqrt(var(x4[,1],na.rm=TRUE)),3))
 
-boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_off MLE bootstrap, true k_off=10")
-abline(h = log(10),col="red")
+boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_off MLE bootstrap, true k_off=50")
+abline(h = log(50),col="red")
 paste("k_off standart deviations:", "n=100:", round(sqrt(var(x1[,2],na.rm=TRUE)),3), "; n=200:",round(sqrt(var(x2[,2],na.rm=TRUE)),3), "; n=500:", round(sqrt(var(x3[,2],na.rm=TRUE)),3), "; n=1000: ", round(sqrt(var(x4[,2],na.rm=TRUE)),3))
 
 boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab="Number of cells",names=c("100", "200","500", "1000"),main="k_r MLE bootstrap, true k_r=100")
