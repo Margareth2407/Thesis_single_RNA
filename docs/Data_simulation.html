@@ -435,10 +435,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree5526ae57a76359f2af97bfea5856ef809a86fb5ctargetblank5526ae5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/5526ae57a76359f2af97bfea5856ef809a86fb5c" target="_blank">5526ae5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree68357ed4d265299bb376a1fd2c1cc87298511c2etargetblank68357eda"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/68357ed4d265299bb376a1fd2c1cc87298511c2e" target="_blank">68357ed</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree5526ae57a76359f2af97bfea5856ef809a86fb5ctargetblank5526ae5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree68357ed4d265299bb376a1fd2c1cc87298511c2etargetblank68357eda" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -499,7 +499,7 @@ for (i in k){
 <div id="ii-large-k_on-and-k_off-lead-to-poisson-or-negative-binomial-distribution" class="section level2">
 <h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> lead to Poisson or negative binomial distribution:</h2>
 <pre class="r"><code>par(mfrow=c(2,2))
-k=c(2,10,100,1000)
+k=c(2,10,50,100)
 for (i in k){
   x=generate_one_gene(i,i,100,n=10000)
   name=paste(&#39;k_on,k_off=&#39;,i)
