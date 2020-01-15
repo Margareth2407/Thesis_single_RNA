@@ -47,7 +47,7 @@ for (i in k){
 
 ```{r}
 par(mfrow=c(2,2))
-k=c(2,10,100,1000)
+k=c(2,10,50,100)
 for (i in k){
   x=generate_one_gene(i,i,100,n=10000)
   name=paste('k_on,k_off=',i)
