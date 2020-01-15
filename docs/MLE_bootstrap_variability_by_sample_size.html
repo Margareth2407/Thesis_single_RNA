@@ -359,7 +359,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-<div class="panel-group" id="workflowr-checks">
+<div id="workflowr-checks" class="panel-group">
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -459,10 +459,10 @@ analysis/MLE.py
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreedde5c3534d7ba46aeb9916f9c54459ca46b8c306targetblankdde5c35a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/dde5c3534d7ba46aeb9916f9c54459ca46b8c306" target="_blank">dde5c35</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree9c705464950d7762c0699eb5a5f141c2642e6c28targetblank9c70546a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/9c705464950d7762c0699eb5a5f141c2642e6c28" target="_blank">9c70546</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreedde5c3534d7ba46aeb9916f9c54459ca46b8c306targetblankdde5c35a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree9c705464950d7762c0699eb5a5f141c2642e6c28targetblank9c70546a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -476,7 +476,7 @@ Ignored files:
 
 Unstaged changes:
     Modified:   Data_sim.Rmd
-    Modified:   analysis/Data_simulation.Rmd
+    Deleted:    analysis/Data_sim.Rmd
     Deleted:    analysis/MLE_bootstrap_N_variability.Rmd
 
 </code></pre>
@@ -547,47 +547,47 @@ boxplot(log(x1[,1]),log(x2[,1]),log(x3[,1]),log(x4[,1]),xlab=&quot;Number of cel
 abline(h = log(0.1),col=&quot;red&quot;)</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;K_on standart deviations:&quot;,&quot;n=100:&quot;,round(sqrt(var(x1[,1],na.rm=TRUE)),3), &quot;; n=200:&quot;,round(sqrt(var(x2[,1],na.rm=TRUE)),3), &quot;; n=500:&quot;, round(sqrt(var(x3[,1],na.rm=TRUE)),3), &quot;; n=1000:&quot;,round(sqrt(var(x4[,1],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 0.024 ; n=200: 0.018 ; n=500: 0.01 ; n=1000: 0.007&quot;</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 0.021 ; n=200: 0.016 ; n=500: 0.01 ; n=1000: 0.007&quot;</code></pre>
 <pre class="r"><code>boxplot(log(x1[,2]),log(x2[,2]),log(x3[,2]),log(x4[,2]),xlab=&quot;Number of cells&quot;,names=c(&quot;100&quot;, &quot;200&quot;,&quot;500&quot;, &quot;1000&quot;),main=&quot;k_off MLE bootstrap, true k_off=0.1&quot;)
 abline(h = log(0.1),col=&quot;red&quot;)</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;k_off standart deviations:&quot;, &quot;n=100:&quot;, round(sqrt(var(x1[,2],na.rm=TRUE)),3), &quot;; n=200:&quot;,round(sqrt(var(x2[,2],na.rm=TRUE)),3), &quot;; n=500:&quot;, round(sqrt(var(x3[,2],na.rm=TRUE)),3), &quot;; n=1000: &quot;, round(sqrt(var(x4[,2],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 0.035 ; n=200: 0.019 ; n=500: 0.011 ; n=1000:  0.009&quot;</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 0.032 ; n=200: 0.02 ; n=500: 0.012 ; n=1000:  0.008&quot;</code></pre>
 <pre class="r"><code>boxplot(log(x1[,3]),log(x2[,3]),log(x3[,3]),log(x4[,3]),xlab=&quot;Number of cells&quot;,names=c(&quot;100&quot;, &quot;200&quot;,&quot;500&quot;, &quot;1000&quot;),main=&quot;k_r MLE bootstrap, true k_r=100&quot;)
 abline(h = log(100),col=&quot;red&quot;)</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;k_r standart deviations:&quot;, &quot;n=100:&quot;, round(sqrt(var(x1[,3],na.rm=TRUE)),3), &quot;; n=200:&quot;,round(sqrt(var(x2[,3],na.rm=TRUE)),3), &quot;; n=500:&quot;, round(sqrt(var(x3[,3],na.rm=TRUE)),3), &quot;n=1000:&quot;, round(sqrt(var(x4[,3],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 2.149 ; n=200: 1.15 ; n=500: 0.851 n=1000: 0.614&quot;</code></pre>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 2.485 ; n=200: 1.36 ; n=500: 0.834 n=1000: 0.592&quot;</code></pre>
 </div>
 <div id="ii-large-k_on-and-k_off-case" class="section level2">
 <h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
 <p>For large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case, we see decrease in standart deviation, but the magnitude is quite high.</p>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 5.176 ; n=200: 4.018 ; n=500: 1.325 ; n=1000: 3.179&quot;</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 39.701 ; n=200: 36.741 ; n=500: 22.918 ; n=1000: 24.557&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 171.074 ; n=200: 26.713 ; n=500: 2.126 ; n=1000:  104.445&quot;</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 90.901 ; n=200: 194.062 ; n=500: 126.755 ; n=1000:  99.7&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 422.566 ; n=200: 56.45 ; n=500: 8.047 n=1000: 503.54&quot;</code></pre>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 51.575 ; n=200: 134.792 ; n=500: 70.096 n=1000: 53.319&quot;</code></pre>
 </div>
 <div id="iii-large-value-of-k_off-and-small-k_on-case" class="section level2">
 <h2>III) Large value of <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> case:</h2>
 <p>For small <span class="math inline">\(k_{on}\)</span> large <span class="math inline">\(k_{off}\)</span> we observe that as <span class="math inline">\(k_{on}\)</span> has small deviation and as we might remember from previous vignette, this is the only identifiable parameter in this scenario. Both <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_{r}\)</span> were unidentifiable, so we see high standart deviation even with big data size. We also experience some instability in standart deviation - sample size dependance as we sometimes see increase in standart deviation despite the sample size growth.</p>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 0.219 ; n=200: 0.108 ; n=500: 0.088 ; n=1000: 0.062&quot;</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 0.201 ; n=200: 0.166 ; n=500: 0.091 ; n=1000: 0.063&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 147.481 ; n=200: 1.981 ; n=500: 6.687 ; n=1000:  1.416&quot;</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 134.838 ; n=200: 72.871 ; n=500: 26.549 ; n=1000:  7.544&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 1000.357 ; n=200: 14.821 ; n=500: 52 n=1000: 10.387&quot;</code></pre>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 787.675 ; n=200: 528.631 ; n=500: 202.353 n=1000: 64.361&quot;</code></pre>
 </div>
 <div id="iv-small-value-of-k_off-and-big-k_on" class="section level2">
 <h2>IV) Small value of <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
 <p>Small value if <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span> scenario has identifiable parameters, so alike with small value <span class="math inline">\(k_{on}\)</span>, <span class="math inline">\(k_{on}\)</span> case we observe reasonable standart deviation values, especially for bigger dataset as well as decrease in standart deviation size.</p>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;K_on standart deviations: n=100: 18.296 ; n=200: 12.624 ; n=500: 12.3 ; n=1000: 1.138&quot;</code></pre>
+<pre><code>[1] &quot;K_on standart deviations: n=100: 25.369 ; n=200: 18.497 ; n=500: 1.778 ; n=1000: 3.265&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_off standart deviations: n=100: 19.307 ; n=200: 29.104 ; n=500: 30.154 ; n=1000:  0.168&quot;</code></pre>
+<pre><code>[1] &quot;k_off standart deviations: n=100: 66.342 ; n=200: 46.133 ; n=500: 0.417 ; n=1000:  0.957&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap_variability_by_sample_size.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;k_r standart deviations: n=100: 24.156 ; n=200: 31.249 ; n=500: 27.157 n=1000: 1.173&quot;</code></pre>
+<pre><code>[1] &quot;k_r standart deviations: n=100: 62.25 ; n=200: 40.772 ; n=500: 2.212 n=1000: 2.519&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
