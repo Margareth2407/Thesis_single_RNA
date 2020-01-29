@@ -1,0 +1,80 @@
+---
+title: "Real_data_filter"
+author: "Margarita Orlova"
+date: "January 28, 2020"
+output: html_document
+---
+
+##Filtering
+
+```{r}
+library(dplyr)
+data<-read.table("D:/Uchicago/Thesis/Real_data/scqtl-counts/scqtl-counts.txt", header = TRUE, sep = "", dec = ".")
+```
+
+```{r}
+combined_filter<-read.table("D:/Uchicago/Thesis/Real_data/combined_filter.txt", header = FALSE, sep = ",", dec = ".")
+combined_filter[,1]<-combined_filter[,1]+2 #adjusting index from python to R
+```
+
+```{r}
+clean_data<-data.frame(data[,1],data[,combined_filter[,1]])
+colnames(clean_data)[1]<-"gene"
+```
+
+```{r}
+gene_filter<-read.table("D:/Uchicago/Thesis/Real_data/mean/mean.txt", header = TRUE, sep = "", dec = ".",row.names=NULL)
+gene_filter<-gene_filter[,c("gene","p_beta")]
+clean_data<- left_join(clean_data, gene_filter, by = "gene")
+clean_data <- clean_data[order(clean_data$p_beta),]
+clean_data <- clean_data[,1:(ncol(clean_data)-1)]
+```
+
+
+##Maximum likelihood estimation for one gene
+
+```{r}
+library(reticulate)
+library(robustbase)
+source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.py")
+```
+
+
+```{r}
+estimate_MLE_one_gene<-function(full_data){
+  data_ind<-substr(colnames(full_data),0,7)
+  data_ind<-data_ind[2:length(data_ind)]
+  est=matrix(, nrow = (length(unique(data_ind))-1), ncol = 3)
+  info=matrix(, nrow = (length(unique(data_ind))-1), ncol = 2)
+  iter=0
+for (i in unique(data_ind)){
+  if (i=="NA18498"){
+    next}
+  iter=iter+1
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  est[iter,]=MaximumLikelihood(x)
+  info[iter,1]=i
+  info[iter,2]=dim(x)[1]
+
+}
+return(list(est,info))
+  }
+```
+
+
+```{r}
+top_gene<-clean_data[1,]
+x=estimate_MLE_one_gene(top_gene)
+```
+
+
+```{r}
+estimates=x[[1]]
+hist(log(estimates[,1]), main="k_on")
+hist(log(estimates[,2]), main="k_off")
+hist(log(estimates[,3]), main="k_r")
+```
+
+
+
