@@ -14,3 +14,8 @@ Welcome to my research website.
 * [MLE estimation of parameters](MLE_estimates.html)
 * [Bootstrap of MLE parameters](MLE_bootstrap.html)
 * [Bootstrap variability of MLE parameters for different cell population](MLE_bootstrap_variability_by_sample_size.html)
+
+
+Real data 
+
+* [Initial filtering and top gene analysis](Real_data_filter.html)
