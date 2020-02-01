@@ -19,3 +19,4 @@ Welcome to my research website.
 Real data 
 
 * [Initial filtering and top gene analysis](Real_data_filter.html)
+* [MLE estimation with noise ](MLE_estimation_with_noise_parameter.html)
