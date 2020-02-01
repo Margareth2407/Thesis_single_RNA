@@ -1,5 +1,5 @@
 ---
-title: "MLE_estimation_with_noise_parameter"
+title: "MLE estimation with noise parameter"
 author: "Margarita Orlova"
 date: "January 30, 2020"
 output: html_document
