@@ -6,7 +6,6 @@ output: html_document
 ---
 
 ```{r}
-#install.packages("workflowr")
 library(workflowr)
 ```
 
@@ -34,11 +33,12 @@ wflow_view(files="docs/MLE_estimates.html")
 
 
 ```{r}
-wflow_publish("analysis/MLE_estimates.Rmd")
-#wflow_publish("analysis/index.Rmd")
+#wflow_publish("analysis/MLE_bootstrap_variability_by_sample_size.Rmd")
+wflow_publish("analysis/MLE_estimation_with_noise_parameter.Rmd")
+wflow_publish("analysis/index.Rmd")
 ```
 
-
+ 
 ```{r}
 wflow_git_push()
 ```
@@ -47,5 +47,6 @@ wflow_git_push()
 ```{r}
 workflowr::wflow_publish(all = TRUE)
 ```
+
 
 

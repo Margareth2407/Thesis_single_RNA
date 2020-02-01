@@ -8,7 +8,7 @@ import warnings
 import os
 
 
-def MaximumLikelihood(vals, export_asymp_ci = False, fix = 0, metod = 'L-BFGS-B'):
+def MaximumLikelihood_with_si(vals, si, export_asymp_ci = False, fix = 0, metod = 'L-BFGS-B'):
     from scipy.interpolate import interp1d
     from scipy.optimize import minimize
     from scipy import special
@@ -18,24 +18,24 @@ def MaximumLikelihood(vals, export_asymp_ci = False, fix = 0, metod = 'L-BFGS-B'
     import numpy as np
     if len(vals) == 0:
         return np.array([np.nan, np.nan, np.nan])
-    def dBP(at, alpha, bet, lam):
+    def dBP(at, si, alpha, bet, lam):
         at.shape = (len(at), 1)
         np.repeat(at, 50, axis = 1)
-        def fun(at, m):
+        def fun(at,si, m):
             if(max(m) < 1e6):
-                return(poisson.pmf(at,m)) 
+                return(poisson.pmf(at,si*m)) 
             else:
                 return(norm.pdf(at,loc=m,scale=sqrt(m)))
 
         x,w = j_roots(50,alpha = bet - 1, beta = alpha - 1)
-        gs = np.sum(w*fun(at, m = lam*(1+x)/2), axis=1) #m*s_i
+        gs = np.sum(w*fun(at,si, m = lam*(1+x)/2), axis=1) #m*s_i
         prob = 1/beta_fun(alpha, bet)*2**(-alpha-bet+1)*gs
         return(prob)
     def LogLikelihood(x, vals):
         kon = x[0]
         koff = x[1]
         ksyn = x[2]
-        return(-np.sum(np.log( dBP(vals,kon,koff,ksyn) + 1e-10) ) )
+        return(-np.sum(np.log( dBP(vals, si, kon,koff,ksyn) + 1e-10) ) )
     x0 = MomentInference(vals)
     if np.isnan(x0).any() or any(x0 < 0):
         x0 = np.array([10,10,10])
@@ -79,12 +79,3 @@ def MomentInference(vals, export_moments=False):
         return np.array([lambda_est, mu_est, v_est, r1, r2, r3])
 
     return np.array([lambda_est, mu_est, v_est])
-
-
-
-def generate_data(kon,koff,kr,n_cells):
-    x=np.empty([n_cells, 1])
-    for i in range(0,n_cells):
-        p=np.random.beta(kon, koff, size=None)
-        x[i]=np.random.poisson(kr*p, size=None)
-    return(x)

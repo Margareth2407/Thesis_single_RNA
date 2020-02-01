@@ -4,6 +4,7 @@ author: "Margarita Orlova"
 date: "January 28, 2020"
 output: html_document
 ---
+In this vignette we will load the data, pre-process it and analyse top first gene by p_beta parameter
 
 ## Filtering
 
@@ -76,5 +77,13 @@ hist(log(estimates[,2]), main="k_off")
 hist(log(estimates[,3]), main="k_r")
 ```
 
+
+## Distribution for one individuals
+
+Then we take the individual with most cells and take a look at the estimated parameters:
+
+```{r}
+
+```
 
 
