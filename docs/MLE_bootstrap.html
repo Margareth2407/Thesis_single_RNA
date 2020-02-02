@@ -343,7 +343,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-01-15
+<strong>Last updated:</strong> 2020-02-01
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -458,10 +458,10 @@ analysis/MLE.py
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree0a994dafaee3e551daa2860511889c7644feb93ftargetblank0a994daa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/0a994dafaee3e551daa2860511889c7644feb93f" target="_blank">0a994da</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreecd52ed5af2409a7a4df1484939f19d332acbd840targetblankcd52ed5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/cd52ed5af2409a7a4df1484939f19d332acbd840" target="_blank">cd52ed5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree0a994dafaee3e551daa2860511889c7644feb93ftargetblank0a994daa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreecd52ed5af2409a7a4df1484939f19d332acbd840targetblankcd52ed5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -475,8 +475,11 @@ Ignored files:
 
 Unstaged changes:
     Modified:   Data_sim.Rmd
-    Deleted:    analysis/Data_sim.Rmd
-    Deleted:    analysis/MLE_bootstrap_N_variability.Rmd
+    Deleted:    analysis/MLE_bootstrap_variability_by_sample_size.Rmd
+    Deleted:    analysis/MLE_estimates.Rmd
+    Deleted:    analysis/MLE_estimation_with_noise_parameter.Rmd
+    Deleted:    analysis/MLE_variability_by_sample_size.Rmd
+    Deleted:    analysis/Real_data_filter.Rmd
 
 </code></pre>
 <p>
@@ -527,47 +530,47 @@ hist(log(est[,1]),breaks=30, main=&quot;MLE estimate of k_on parameter,true k_on
 abline(v=log(0.1),col=&#39;red&#39;)</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;true k_on is 0.1;&quot;,&quot;k_on mean;&quot;,round(mean(est[,1],na.rm=TRUE),3),&quot;k_on median&quot;, round(median(est[,1],na.rm=TRUE),3),&quot;k_on st.deviation&quot;,round(sqrt(var(est[,1],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;true k_on is 0.1; k_on mean; 0.09 k_on median 0.09 k_on st.deviation 0.009&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 0.1; k_on mean; 0.119 k_on median 0.119 k_on st.deviation 0.01&quot;</code></pre>
 <pre class="r"><code>hist(log(est[,2]),breaks=30, main=&quot;MLE estimate of k_off parameter, true k_off=0.1&quot;)
 abline(v=log(0.1),col=&#39;red&#39;)</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;true k_off is 0.1;&quot;,&quot;k_off mean;&quot;,round(mean(est[,2],na.rm=TRUE),3),&quot;k_off median&quot;, round(median(est[,2],na.rm=TRUE),3),&quot;k_off st.deviation&quot;,round(sqrt(var(est[,2],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;true k_off is 0.1; k_off mean; 0.089 k_off median 0.089 k_off st.deviation 0.01&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 0.1; k_off mean; 0.13 k_off median 0.129 k_off st.deviation 0.014&quot;</code></pre>
 <pre class="r"><code>hist(log(est[,3]),breaks=30, main=&quot;MLE estimate of k_r parameter,true k_r=100&quot;)
 abline(v=log(100),col=&#39;red&#39;)</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>paste(&quot;true k_r is 100;&quot;,&quot;k_r mean;&quot;,round(mean(est[,3],na.rm=TRUE),3),&quot;k_r median&quot;, round(median(est[,3],na.rm=TRUE),3),&quot;k_r st.deviation&quot;,round(sqrt(var(est[,3],na.rm=TRUE)),3))</code></pre>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 100.418 k_r median 100.41 k_r st.deviation 0.747&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 100.114 k_r median 100.115 k_r st.deviation 0.93&quot;</code></pre>
 <p>As we saw in previous vignette, this small <span class="math inline">\(k_{on}\)</span>, <span class="math inline">\(k_{off}\)</span> scenario has clearly identifiable solutions which is confirmed by boorstrap as we see again mean, median are close to the true value and standart deviation is small as well.</p>
 </div>
 <div id="ii-large-k_on-and-k_off-case" class="section level2">
 <h2>II) Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> case:</h2>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 50; k_on mean; 75.154 k_on median 76.265 k_on st.deviation 18.43&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 50; k_on mean; 72.132 k_on median 79.435 k_on st.deviation 32.035&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 50; k_off mean; 240.104 k_off median 242.953 k_off st.deviation 136.995&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 50; k_off mean; 140.46 k_off median 128.02 k_off st.deviation 125.1&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 200.785 k_r median 194.239 k_r st.deviation 83.08&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 128.336 k_r median 120.557 k_r st.deviation 62.507&quot;</code></pre>
 <p>Large <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> as said earlier produces a dataset with unidentifiable parameters as we do not approach true values with neigher mean or median with huge standart deviation.</p>
 </div>
 <div id="iii-large-value-of-k_off-and-small-k_on-case" class="section level2">
 <h2>III) Large value of <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> case:</h2>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 1; k_on mean; 1.101 k_on median 1.101 k_on st.deviation 0.093&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 1; k_on mean; 0.954 k_on median 0.951 k_on st.deviation 0.088&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 10; k_off mean; 112.87 k_off median 58.196 k_off st.deviation 158.393&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 10; k_off mean; 10.538 k_off median 6.585 k_off st.deviation 15.538&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 898.381 k_r median 460.835 k_r st.deviation 1307.302&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 106.493 k_r median 74.295 k_r st.deviation 127.793&quot;</code></pre>
 <p>Big <span class="math inline">\(k_{off}\)</span> and small <span class="math inline">\(k_{on}\)</span> values allow us to identify <span class="math inline">\(k_{on}\)</span> parameter, but prevent correct estimation of <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_{r}\)</span>. We see high standart deviation of the parameters as well as some huge outliers.</p>
 </div>
 <div id="iv-small-value-of-k_off-and-big-k_on" class="section level2">
 <h2>IV) Small value of <span class="math inline">\(k_{off}\)</span> and big <span class="math inline">\(k_{on}\)</span></h2>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 10; k_on mean; 21.662 k_on median 18.733 k_on st.deviation 9.796&quot;</code></pre>
+<pre><code>[1] &quot;true k_on is 10; k_on mean; 10.326 k_on median 9.308 k_on st.deviation 5.637&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 1; k_off mean; 7.306 k_off median 3.603 k_off st.deviation 17.577&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 1; k_off mean; 1.286 k_off median 0.753 k_off st.deviation 3.991&quot;</code></pre>
 <p><img src="figure/MLE_bootstrap.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean; 113.357 k_r median 108.87 k_r st.deviation 21.84&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean; 100.143 k_r median 99.106 k_r st.deviation 5.758&quot;</code></pre>
 <p>We again observe that parameters get estimated quite accurately, even though not as good as in case I. Standart deviation is reasonable, while mean and median approach true value.</p>
 <br>
 <p>
