@@ -11,23 +11,25 @@ In this vignette we will load the data, pre-process it and analyse top  gene by 
 
 ```{r}
 library(dplyr)
-data<-read.table("D:/Uchicago/Thesis/Real_data/scqtl-counts/scqtl-counts.txt", header = TRUE, sep = "", dec = ".")
+raw_data<-read.table("D:/Uchicago/Thesis/Real_data/scqtl-counts/scqtl-counts.txt", header = TRUE, sep = "", dec = ".")
 ```
 
 ```{r}
 combined_filter<-read.table("D:/Uchicago/Thesis/Real_data/combined_filter.txt", header = FALSE, sep = ",", dec = ".")
 combined_filter[,1]<-combined_filter[,1]+2 #adjusting index from python to R
-clean_data<-data.frame(data[,1],data[,combined_filter[,1]])
-colnames(clean_data)[1]<-"gene"
-gene_filter<-read.table("D:/Uchicago/Thesis/Real_data/mean/mean.txt", header = TRUE, sep = "", dec = ".",row.names=NULL)
-gene_filter<-gene_filter[,c("gene","p_beta")]
-clean_data<- left_join(clean_data, gene_filter, by = "gene")
-clean_data <- clean_data[order(clean_data$p_beta),]
-clean_data <- clean_data[,1:(ncol(clean_data)-1)]
+data<-data.frame(raw_data[,1],raw_data[,combined_filter[,1]])
+colnames(data)[1]<-"gene"
+mean_txt_file<-read.table("D:/Uchicago/Thesis/Real_data/mean/mean.txt", header = TRUE, sep = "", dec = ".",row.names=NULL)
+gene_filter<-mean_txt_file[,c("gene","p_beta")]
+data<- left_join(data, gene_filter, by = "gene")
+data <- data[order(data$p_beta),]
+clean_data <- data[,1:(ncol(data)-1)]
 ```
 
 
 ## Maximum likelihood estimation for one gene
+
+Below we take the gene with the smallest p beta and estimate the parameters for all individuals
 
 ```{r}
 library(reticulate)
@@ -64,6 +66,7 @@ x=estimate_MLE_one_gene(top_gene)
 
 ```{r}
 estimates=x[[1]]
+info=x[[2]]
 par(mfrow=c(1,3))
 hist(log(estimates[,1]), main="Distribution of k_on estimates", xlab="")
 hist(log(estimates[,2]), main="Distribution of k_off estimates", xlab="")
@@ -79,21 +82,60 @@ The first plot is the real protein level distribution for NA18501 individual.
 Second and third plots are beta and poisson distributions with the estimated $k_{on}$,$k_{off}$ and $k_r$ parameters.
 
 
-```{r}
+```{r, echo=FALSE}
 par(mfrow=c(1,3))
 na18501=top_gene[ , grepl("NA18501", names(top_gene))]
 hist(data.matrix(na18501), xlab="Number of molecules", main="Distribution of protein expression") #Real data
-beta=rbeta(1000,estimates[24,1],estimates[24,2])
-hist(beta)
-poisson=rpois(1000,beta*estimates[24,3])
-hist(poisson, xlab="Number of molecules")
+beta=rbeta(200,estimates[24,1],estimates[24,2])
+hist(beta, main="Beta distribution")
+poisson=rpois(200,beta*estimates[24,3])
+hist(poisson, xlab="Number of molecules",main="Poisson distribution")
 ```
 
 
+## Boxplots by genotype
+
+We can get the genotype of the individuals and compare it to the estimated $k_{on}$, $k_{off}$ and $k_{r}$ parameters.
+
+```{r,echo=FALSE}
+mean_txt_file<-read.table("D:/Uchicago/Thesis/Real_data/mean/mean.txt", header = TRUE, sep = "", dec = ".",row.names=NULL)
+mean_txt_file<-mean_txt_file[,c("gene","id")]
+#data[1,1]
+#mean_txt_file[mean_txt_file$gene == "ENSG00000113558", ]
+
+genotypes<-read.table("D:/Uchicago/Thesis/Real_data/genotypes.txt", header = F, sep = "")
+genotypes<-t(genotypes)
+colnames(genotypes)<-c("ind","genotype")
+
+dataset<-data.frame(estimates,info)
+colnames(dataset)<-c("k_on","k_off","k_r","ind","n_cells")
+dataset<-left_join(dataset,data.frame(genotypes), by = "ind")
+dataset$genotype<-as.numeric(as.character(dataset$genotype))
+```
 
 
+```{r, echo=FALSE}
+par(mfrow=c(1,3))
+boxplot(dataset[dataset$genotype=="0",1],dataset[dataset$genotype=="1",1],dataset[dataset$genotype=="2",1], main= "k_on boxplot by genotype", names=c("0", "1","2"))
+boxplot(dataset[dataset$genotype=="0",2],dataset[dataset$genotype=="1",2],dataset[dataset$genotype=="2",2], main= "k_off boxplot by genotype", names=c("0", "1","2"))
+boxplot(dataset[dataset$genotype=="0",3],dataset[dataset$genotype=="1",3],dataset[dataset$genotype=="2",3], main= "k_r boxplot by genotype", names=c("0", "1","2"))
+```
 
+# Regression
 
+Finally we can fit the regression to estimate linear dependance of genotype on estimated parameters.
 
+```{r, echo=FALSE}
+par(mfrow=c(1,3))
+model1<- lm(k_on~dataset$genotype, data=dataset)
+model2<- lm(k_off~dataset$genotype, data=dataset)
+model3<- lm(k_r~dataset$genotype, data=dataset)
+boxplot(dataset[dataset$genotype=="0",1],dataset[dataset$genotype=="1",1],dataset[dataset$genotype=="2",1], main= "k_on boxplot by genotype", names=c("0", "1","2"))
+abline(model1, col="red")
+boxplot(dataset[dataset$genotype=="0",2],dataset[dataset$genotype=="1",2],dataset[dataset$genotype=="2",2], main= "k_off boxplot by genotype", names=c("0", "1","2"))
+abline(model2, col="red")
+boxplot(dataset[dataset$genotype=="0",3],dataset[dataset$genotype=="1",3],dataset[dataset$genotype=="2",3], main= "k_r boxplot by genotype", names=c("0", "1","2"))
+abline(model3, col="red")
+```
 
 
