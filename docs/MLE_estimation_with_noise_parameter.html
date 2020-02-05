@@ -359,7 +359,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-<div class="panel-group" id="workflowr-checks">
+<div id="workflowr-checks" class="panel-group">
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -467,10 +467,10 @@ analysis/MLE_with_si.py
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree7890a0463d840c97b7cdc9fd0b69f3402015c6bdtargetblank7890a04a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/7890a0463d840c97b7cdc9fd0b69f3402015c6bd" target="_blank">7890a04</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreed3cc5dbbc6eafd17255c5d2813b8d21ffb2d3fb9targetblankd3cc5dba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/d3cc5dbbc6eafd17255c5d2813b8d21ffb2d3fb9" target="_blank">d3cc5db</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree7890a0463d840c97b7cdc9fd0b69f3402015c6bdtargetblank7890a04a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreed3cc5dbbc6eafd17255c5d2813b8d21ffb2d3fb9targetblankd3cc5dba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -518,39 +518,35 @@ n_cells=as.integer(100)
 x=generate_data(k_on,k_off,kr,n_cells)
 est=MaximumLikelihood(x)
 est</code></pre>
-<pre><code>[1]   0.1200748   0.1186050 100.6453388</code></pre>
+<pre><code>[1]   0.1566934   0.1526440 100.3650009</code></pre>
 <p>Then, we implement MLE calculation with <span class="math inline">\(s_i\)</span> parameter included.</p>
 <p>With <span class="math inline">\(s_i\)</span>=1 we should receive the same estimators as without <span class="math inline">\(s_i\)</span></p>
 <pre class="r"><code>si=matrix(1, nrow = 100, ncol = 1)
 x=generate_data_with_si(k_on,k_off,kr,n_cells,si)
 est=MaximumLikelihood_with_si(x,si)
 est</code></pre>
-<pre><code>[1]  0.09796092  0.12279550 99.01861603</code></pre>
+<pre><code>[1]   0.1032181   0.1157682 100.0291850</code></pre>
 <p>With <span class="math inline">\(s_i\)</span>=2, our <span class="math inline">\(k_r\)</span> estimate drops twice, while <span class="math inline">\(k_{on}\)</span> and <span class="math inline">\(k_{off}\)</span> are not really affected by this change.</p>
 <pre class="r"><code>si=matrix(2, nrow = 100, ncol = 1)
 x=generate_data_with_si(k_on,k_off,kr,n_cells,si)
 est=MaximumLikelihood_with_si(x,si)
 est</code></pre>
-<pre><code>[1]  0.1120415  0.1150494 99.0337353</code></pre>
+<pre><code>[1]  0.07899925  0.07777961 99.13065435</code></pre>
 <p>We also try using different <span class="math inline">\(s_i\)</span> values as this is what we will see in real data:</p>
 </div>
 <div id="multiple-dataset-results" class="section level1">
 <h1>Multiple dataset results</h1>
 <p>Now we will also test model with <span class="math inline">\(s_i\)</span> vs the model without it:</p>
 <p>Initial MLE calculations:</p>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 0.1; k_on mean 0.101 k_on median 0.1&quot;</code></pre>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;true k_on is 0.1; k_on mean 0.101 k_on median 0.099&quot;</code></pre>
 <pre><code>[1] &quot;true k_off is 0.1; k_off mean 0.102 k_off median 0.1&quot;</code></pre>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean 100.069 k_r median 100.031&quot;</code></pre>
+<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;true k_r is 100; k_r mean 99.965 k_r median 99.925&quot;</code></pre>
 <p>MLE calculations with <span class="math inline">\(s_i\)</span>=2 for all cells:</p>
+<pre><code>[1] &quot;true k_on is 0.1; k_on mean 0.105 k_on median 0.1&quot;</code></pre>
+<pre><code>[1] &quot;true k_off is 0.1; k_off mean 0.118 k_off median 0.1&quot;</code></pre>
 <p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_on is 0.1; k_on mean 0.105 k_on median 0.101&quot;</code></pre>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_off is 0.1; k_off mean 0.112 k_off median 0.1&quot;</code></pre>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;true k_r is 100; k_r mean 100.79 k_r median 100.07&quot;</code></pre>
+<pre><code>[1] &quot;true k_r is 100; k_r mean 100.729 k_r median 100.056&quot;</code></pre>
 </div>
 <div id="real-data" class="section level1">
 <h1>Real data</h1>
@@ -601,16 +597,36 @@ hist(log(est[,2]),breaks=30, main=&quot;MLE estimate of k_off parameter, log sca
 hist(log(est[,3]),breaks=30, main=&quot;MLE estimate of k_r parameter, log scale&quot;, xlab=&quot;k_r MLE estimate&quot;)</code></pre>
 <p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We can compare that with MLE estimation without size parameter</p>
+<pre class="r"><code>estimate_MLE_one_gene&lt;-function(full_data){
+  data_ind&lt;-substr(colnames(full_data),0,7)
+  data_ind&lt;-data_ind[2:length(data_ind)]
+  est=matrix(, nrow = (length(unique(data_ind))-1), ncol = 3)
+  info=matrix(, nrow = (length(unique(data_ind))-1), ncol = 2)
+  iter=0
+for (i in unique(data_ind)){
+  if (i==&quot;NA18498&quot;){
+    next}
+  iter=iter+1
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  est[iter,]=MaximumLikelihood(x)
+  info[iter,1]=i
+  info[iter,2]=dim(x)[1]}
+return(list(est,info))}
+top_gene&lt;-clean_data[1,]
+x1=estimate_MLE_one_gene(top_gene)
+estimates1=x1[[1]]
+info1=x1[[2]]
+par(mfrow=c(1,3))
+hist(log(estimates1[,1]), main=&quot;Distribution of k_on estimates&quot;, xlab=&quot;&quot;, ylab=&quot;Number of individuals&quot;)
+hist(log(estimates1[,2]), main=&quot;Distribution of k_off estimates&quot;, xlab=&quot;&quot;, ylab=&quot;Number of individuals&quot;)
+hist(log(estimates1[,3]), main=&quot;Distribution of k_r estimates&quot;, xlab=&quot;&quot;, ylab=&quot;Number of individuals&quot;)</code></pre>
 <p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="boxplots-by-genotype" class="section level2">
 <h2>Boxplots by genotype</h2>
 <p>As in previous vignette we compare genotype to the estimated <span class="math inline">\(k_{on}\)</span>, <span class="math inline">\(k_{off}\)</span> and <span class="math inline">\(k_{r}\)</span> parameters.</p>
 <p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-13-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-</div>
-<div id="regression" class="section level1">
-<h1>Regression</h1>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-14-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-14-3.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="distribution-for-one-individuals" class="section level2">
 <h2>Distribution for one individuals</h2>
 <pre class="r"><code>par(mfrow=c(1,3))
@@ -620,7 +636,7 @@ beta=rbeta(200,est[24,1],est[24,2])
 hist(beta, main=&quot;Beta distribution&quot;)
 poisson=rpois(200,beta*est[24,3])
 hist(poisson, xlab=&quot;Number of molecules&quot;,main=&quot;Poisson distribution&quot;)</code></pre>
-<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/MLE_estimation_with_noise_parameter.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
