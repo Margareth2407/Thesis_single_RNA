@@ -14,6 +14,7 @@ The model is $x|k_r,p \sim  Poisson (s_ik_rp_i)$ where $p|k_{on},k_{off}\sim Bet
 library(reticulate)
 library(robustbase)
 source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.py")
+source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE_with_si.py")
 ```
 
 
@@ -27,24 +28,17 @@ k_off=as.numeric(0.1)
 kr=as.numeric(100)
 n_cells=as.integer(100)
 x=generate_data(k_on,k_off,kr,n_cells)
-```
-
-
-```{r}
 est=MaximumLikelihood(x)
 est
 ```
 
 Then, we implement MLE calculation with $s_i$ parameter included.
 
-```{r}
-source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE_with_si.py")
-```
-
 With $s_i$=1 we should receive the same estimators as without $s_i$
 
 ```{r}
 si=matrix(1, nrow = 100, ncol = 1)
+x=generate_data_with_si(k_on,k_off,kr,n_cells,si)
 est=MaximumLikelihood_with_si(x,si)
 est
 ```
@@ -53,18 +47,12 @@ With $s_i$=2, our $k_r$ estimate drops twice, while $k_{on}$ and $k_{off}$ are n
 
 ```{r}
 si=matrix(2, nrow = 100, ncol = 1)
+x=generate_data_with_si(k_on,k_off,kr,n_cells,si)
 est=MaximumLikelihood_with_si(x,si)
 est
 ```
 
 We also try using different $s_i$ values as this is what we will see in real data:
-
-```{r}
-si=matrix(1:5, nrow = 100, ncol = 1)
-est=MaximumLikelihood_with_si(x,si)
-est
-```
-
 
 # Multiple dataset results
 
@@ -85,10 +73,15 @@ for (i in 1:n_estimates){
   est[i,]=MaximumLikelihood(x)
 }
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=0.1, log scale", xlab="k_on MLE estimate")
+abline(v=log(k_on), col='red')
 paste("true k_on is 0.1;","k_on mean",round(mean(est[,1],na.rm=TRUE),3),"k_on median",round(median(est[,1],na.rm=TRUE),3))
+
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=0.1, log scale", xlab="k_off MLE estimate")
+abline(v=log(k_off), col='red')
 paste("true k_off is 0.1;","k_off mean",round(mean(est[,2],na.rm=TRUE),3),"k_off median",round(median(est[,2],na.rm=TRUE),3))
+
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs,true k_r=100, log scale", xlab="k_r MLE estimate")
+abline(v=log(kr), col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 ```
 
@@ -102,17 +95,22 @@ k_on=as.numeric(0.1)
 k_off=as.numeric(0.1)
 kr=as.numeric(100)
 n_cells=as.integer(100)
-si=matrix(2, nrow = 100, ncol = 1)
+si=matrix(2 , nrow = n_cells, ncol = 1)
 est=matrix(, nrow = n_estimates, ncol = 3)
 for (i in 1:n_estimates){
-  x=generate_data(k_on,k_off,kr,n_cells)
+  x=generate_data_with_si(k_on,k_off,kr,n_cells, si)
   est[i,]=MaximumLikelihood_with_si(x,si) 
 }
 hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=0.1, log scale", xlab="k_on MLE estimate")
+abline(v=log(k_on), col='red')
 paste("true k_on is 0.1;","k_on mean",round(mean(est[,1],na.rm=TRUE),3),"k_on median",round(median(est[,1],na.rm=TRUE),3))
+
 hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=0.1, log scale", xlab="k_off MLE estimate")
+abline(v=log(k_off), col='red')
 paste("true k_off is 0.1;","k_off mean",round(mean(est[,2],na.rm=TRUE),3),"k_off median",round(median(est[,2],na.rm=TRUE),3))
+
 hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs,true k_r=100, log scale", xlab="k_r MLE estimate")
+abline(v=log(kr), col='red')
 paste("true k_r is 100;","k_r mean",round(mean(est[,3],na.rm=TRUE),3),"k_r median",round(median(est[,3],na.rm=TRUE),3))
 ```
 
@@ -179,23 +177,44 @@ top_gene<-clean_data[1,]
 results=estimate_MLE_one_gene_with_si(top_gene,full_cell_info)
 est=results[[1]]
 info=results[[2]]
-hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter,1000 runs, true k_on=0.1, log scale", xlab="k_on MLE estimate")
-hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter,1000 runs, true k_off=0.1, log scale", xlab="k_off MLE estimate")
-hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter,1000 runs,true k_r=100, log scale", xlab="k_r MLE estimate")
-```
-
-
-## Distribution for one individuals
-
-```{r}
 par(mfrow=c(1,3))
-na18501=top_gene[ , grepl("NA18501", names(top_gene))]
-hist(data.matrix(na18501), xlab="Number of molecules", main="Distribution of protein expression") #Real data
-beta=rbeta(200,est[24,1],est[24,2])
-hist(beta, main="Beta distribution")
-poisson=rpois(200,beta*est[24,3])
-hist(poisson, xlab="Number of molecules",main="Poisson distribution")
+hist(log(est[,1]),breaks=30, main="MLE estimate of k_on parameter, log scale", xlab="k_on MLE estimate")
+hist(log(est[,2]),breaks=30, main="MLE estimate of k_off parameter, log scale", xlab="k_off MLE estimate")
+hist(log(est[,3]),breaks=30, main="MLE estimate of k_r parameter, log scale", xlab="k_r MLE estimate")
 ```
+
+
+We can compare that with MLE estimation without size parameter
+
+
+```{r, echo=FALSE}
+estimate_MLE_one_gene<-function(full_data){
+  data_ind<-substr(colnames(full_data),0,7)
+  data_ind<-data_ind[2:length(data_ind)]
+  est=matrix(, nrow = (length(unique(data_ind))-1), ncol = 3)
+  info=matrix(, nrow = (length(unique(data_ind))-1), ncol = 2)
+  iter=0
+for (i in unique(data_ind)){
+  if (i=="NA18498"){
+    next}
+  iter=iter+1
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  est[iter,]=MaximumLikelihood(x)
+  info[iter,1]=i
+  info[iter,2]=dim(x)[1]}
+return(list(est,info))}
+top_gene<-clean_data[1,]
+x1=estimate_MLE_one_gene(top_gene)
+estimates1=x1[[1]]
+info1=x1[[2]]
+par(mfrow=c(1,3))
+hist(log(estimates1[,1]), main="Distribution of k_on estimates", xlab="", ylab="Number of individuals")
+hist(log(estimates1[,2]), main="Distribution of k_off estimates", xlab="", ylab="Number of individuals")
+hist(log(estimates1[,3]), main="Distribution of k_r estimates", xlab="", ylab="Number of individuals")
+```
+
+
 
 ## Boxplots by genotype
 
@@ -215,28 +234,74 @@ dataset<-data.frame(est,info)
 colnames(dataset)<-c("k_on","k_off","k_r","ind","n_cells")
 dataset<-left_join(dataset,data.frame(genotypes), by = "ind")
 dataset$genotype<-as.numeric(as.character(dataset$genotype))
+
+dataset1<-data.frame(estimates1,info1)
+colnames(dataset1)<-c("k_on","k_off","k_r","ind","n_cells")
+dataset1<-left_join(dataset1,data.frame(genotypes), by = "ind")
+dataset1$genotype<-as.numeric(as.character(dataset1$genotype))
 ```
 
 
+
 ```{r, echo=FALSE}
-par(mfrow=c(1,3))
-boxplot(dataset[dataset$genotype=="0",1],dataset[dataset$genotype=="1",1],dataset[dataset$genotype=="2",1], main= "k_on boxplot by genotype", names=c("0", "1","2"))
-boxplot(dataset[dataset$genotype=="0",2],dataset[dataset$genotype=="1",2],dataset[dataset$genotype=="2",2], main= "k_off boxplot by genotype", names=c("0", "1","2"))
-boxplot(dataset[dataset$genotype=="0",3],dataset[dataset$genotype=="1",3],dataset[dataset$genotype=="2",3], main= "k_r boxplot by genotype", names=c("0", "1","2"))
+par(mfrow=c(1,2))
+#boxplot(dataset[dataset$genotype=="0",1],dataset[dataset$genotype=="1",1],dataset[dataset$genotype=="2",1], main= "k_on boxplot by genotype", names=c("0", "1","2"))
+#boxplot(dataset[dataset$genotype=="0",2],dataset[dataset$genotype=="1",2],dataset[dataset$genotype=="2",2], main= "k_off boxplot by genotype", names=c("0", "1","2"))
+#boxplot(dataset[dataset$genotype=="0",3],dataset[dataset$genotype=="1",3],dataset[dataset$genotype=="2",3], main= "k_r boxplot by genotype", names=c("0", "1","2"))
+
+#k_on
+plot(dataset$genotype,dataset$k_on, xlab="genotype", ylab="k_on estimate", main= "MLE with size parameter")
+plot(dataset$genotype,dataset1$k_on, xlab="genotype", ylab="k_on estimate", main= "MLE without size parameter")
+
+#k_off
+plot(dataset$genotype,dataset$k_off, xlab="genotype", ylab="k_off estimate", main= "MLE with size parameter")
+plot(dataset$genotype,dataset1$k_off, xlab="genotype", ylab="k_off estimate", main= "MLE without size parameter")
+
+#k_r
+plot(dataset$genotype,dataset$k_r, xlab="genotype", ylab="k_r estimate", main= "MLE with size parameter")
+plot(dataset$genotype,dataset1$k_r, xlab="genotype", ylab="k_r estimate",main= "MLE without size parameter")
 ```
 
 # Regression
 
 ```{r, echo=FALSE}
-par(mfrow=c(1,3))
+par(mfrow=c(1,2))
 model1<- lm(k_on~dataset$genotype, data=dataset)
 model2<- lm(k_off~dataset$genotype, data=dataset)
 model3<- lm(k_r~dataset$genotype, data=dataset)
-boxplot(dataset[dataset$genotype=="0",1],dataset[dataset$genotype=="1",1],dataset[dataset$genotype=="2",1], main= "k_on boxplot by genotype", names=c("0", "1","2"))
+
+model11<- lm(k_on~dataset1$genotype, data=dataset)
+model21<- lm(k_off~dataset1$genotype, data=dataset)
+model31<- lm(k_r~dataset1$genotype, data=dataset)
+
+plot(dataset$genotype,dataset$k_on, xlab="genotype", ylab="k_on estimate", main= "MLE with size parameter")
 abline(model1, col="red")
-boxplot(dataset[dataset$genotype=="0",2],dataset[dataset$genotype=="1",2],dataset[dataset$genotype=="2",2], main= "k_off boxplot by genotype", names=c("0", "1","2"))
+plot(dataset1$genotype,dataset$k_on, xlab="genotype", ylab="k_on estimate", main= "MLE without size parameter")
+abline(model11, col="red")
+
+plot(dataset$genotype,dataset$k_off, xlab="genotype", ylab="k_off estimate", main= "MLE with size parameter")
 abline(model2, col="red")
-boxplot(dataset[dataset$genotype=="0",3],dataset[dataset$genotype=="1",3],dataset[dataset$genotype=="2",3], main= "k_r boxplot by genotype", names=c("0", "1","2"))
+plot(dataset1$genotype,dataset$k_off, xlab="genotype", ylab="k_off estimate", main= "MLE without size parameter")
+abline(model21, col="red")
+
+plot(dataset$genotype,dataset$k_r, xlab="genotype", ylab="k_r estimate", main= "MLE with size parameter")
 abline(model3, col="red")
+plot(dataset1$genotype,dataset$k_r, xlab="genotype", ylab="k_r estimate", main= "MLE without size parameter")
+abline(model31, col="red")
+```
+
+
+
+
+## Distribution for one individuals
+
+```{r}
+par(mfrow=c(1,3))
+na18501=top_gene[ , grepl("NA18501", names(top_gene))]
+hist(data.matrix(na18501), xlab="Number of molecules", main="Distribution of protein expression") #Real data
+beta=rbeta(200,est[24,1],est[24,2])
+hist(beta, main="Beta distribution")
+poisson=rpois(200,beta*est[24,3])
+hist(poisson, xlab="Number of molecules",main="Poisson distribution")
 ```
 
