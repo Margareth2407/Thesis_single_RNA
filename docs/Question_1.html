@@ -11,6 +11,7 @@
 
 <meta name="author" content="Margarita Orlova" />
 
+<meta name="date" content="2020-02-08" />
 
 <title>Question_1</title>
 
@@ -358,7 +359,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-<div id="workflowr-checks" class="panel-group">
+<div class="panel-group" id="workflowr-checks">
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -466,10 +467,10 @@ analysis/clean_dataset_for_analysis.txt
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree951df38a9fd391d87abc03128a824507d9eb099dtargetblank951df38a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/951df38a9fd391d87abc03128a824507d9eb099d" target="_blank">951df38</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreebd2b3f55131dc82fdac3a979b85023a7dd89ce26targetblankbd2b3f5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/bd2b3f55131dc82fdac3a979b85023a7dd89ce26" target="_blank">bd2b3f5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtree951df38a9fd391d87abc03128a824507d9eb099dtargetblank951df38a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreebd2b3f55131dc82fdac3a979b85023a7dd89ce26targetblankbd2b3f5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -482,7 +483,6 @@ Ignored files:
     Ignored:    analysis/.Rhistory
 
 Untracked files:
-    Untracked:  analysis/Chapter_2_analysis.Rmd
     Untracked:  analysis/Filter.Rmd
     Untracked:  analysis/MLE_and_regression_for_235_genes.Rmd
     Untracked:  analysis/clean_dataset_for_analysis.txt
@@ -547,17 +547,15 @@ estimates=x[[1]]
 info=x[[2]]</code></pre>
 <pre class="r"><code>par(mfrow=c(1,3))
 na18507=top_gene[ , grepl(&quot;NA18507&quot;, names(top_gene))]
-hist(data.matrix(na18507), xlab=&quot;Number of molecules&quot;, main=&quot;Distribution of protein expression&quot;) #Real data
-
+hist(data.matrix(na18507), xlab=&quot;Number of molecules&quot;, main=&quot;Distribution of protein expression&quot;) 
 
 lines(281*dBP(matrix(seq(0,110,by=1)),estimates[20,1],estimates[20,2],estimates[20,3]))
-
 
 beta=dbeta(seq(0,1,by=0.001),estimates[20,1],estimates[20,2])
 plot(beta, main=&quot;Beta distribution with estimated parameters&quot;, type=&quot;l&quot;)
 
-beta=rbeta(1000,estimates[20,1],estimates[20,2])
-poisson=rpois(1000,beta*estimates[20,3])
+beta=rbeta(281,estimates[20,1],estimates[20,2])
+poisson=rpois(281,beta*estimates[20,3])
 hist(poisson, xlab=&quot;Number of molecules&quot;,main=&quot;Poisson distribution&quot;)</code></pre>
 <p><img src="figure/Question_1.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
