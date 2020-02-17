@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Margarita Orlova" />
+
+<meta name="date" content="2020-02-15" />
+
+<title>Weighted_regression</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thesis_single_RNA</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/Margareth2407/Thesis_single_RNA">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Weighted_regression</h1>
+<h4 class="author"><em>Margarita Orlova</em></h4>
+<h4 class="date"><em>February 15, 2020</em></h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-02-17
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thesis_single_RNA/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.5.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20191113code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20191113)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20191113code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20191113)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/final_genotype_data.txt
+</td>
+<td style="text-align:left;">
+analysis/final_genotype_data.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/clean_dataset_for_analysis.txt
+</td>
+<td style="text-align:left;">
+analysis/clean_dataset_for_analysis.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.py
+</td>
+<td style="text-align:left;">
+analysis/MLE.py
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreed48c682daef4bf33699bda665751bfe0aff93176targetblankd48c682a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/Margareth2407/Thesis_single_RNA/tree/d48c682daef4bf33699bda665751bfe0aff93176" target="_blank">d48c682</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomMargareth2407ThesissingleRNAtreed48c682daef4bf33699bda665751bfe0aff93176targetblankd48c682a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+
+Untracked files:
+    Untracked:  analysis/Filter.Rmd
+    Untracked:  analysis/MLE_and_regression_for_235_genes.Rmd
+    Untracked:  analysis/clean_dataset_for_analysis.txt
+    Untracked:  analysis/estimates_for_235_genes.RData
+    Untracked:  analysis/estimates_for_235_genes.rds
+    Untracked:  analysis/final_genotype_data.txt
+    Untracked:  analysis/genes_to_search.txt
+    Untracked:  analysis/genotypes.txt
+    Untracked:  analysis/regression_for_235_genes.txt
+    Untracked:  analysis/rplot.jpg
+    Untracked:  analysis/search_script.py
+
+Unstaged changes:
+    Modified:   Data_sim.Rmd
+    Modified:   analysis/MLE.py
+    Modified:   analysis/MLE_with_si.py
+    Modified:   analysis/Question_1.Rmd
+    Modified:   analysis/Real_data_filter.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>final_genotypes&lt;-read.table(&quot;C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/final_genotype_data.txt&quot;, header = T, sep = &quot;\t&quot;)
+clean_data&lt;-read.table(&quot;C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/clean_dataset_for_analysis.txt&quot;, header = T, sep = &quot;\t&quot;)
+library(reticulate)</code></pre>
+<pre><code>Warning: package &#39;reticulate&#39; was built under R version 3.5.3</code></pre>
+<pre class="r"><code>library(robustbase)</code></pre>
+<pre><code>Warning: package &#39;robustbase&#39; was built under R version 3.5.1</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>Warning: package &#39;dplyr&#39; was built under R version 3.5.3</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>source_python(&quot;C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.py&quot;)</code></pre>
+<pre class="r"><code>ENSG00000197728_genotype&lt;-final_genotypes[2,]
+ENSG00000197728_data&lt;-clean_data[2,]</code></pre>
+<pre class="r"><code>estimate_MLE_one_gene_with_boot&lt;-function(full_data,boot_n){
+  data_ind&lt;-substr(colnames(full_data),0,7)
+  data_ind&lt;-data_ind[2:length(data_ind)]
+  bootstrap&lt;-list()
+  iter=0
+for (i in unique(data_ind)){
+  if (i==&quot;NA18498&quot;){
+    next}
+  iter=iter+1
+  est=matrix(, boot_n, ncol = 3)
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  for (j in 1:boot_n){
+    boot_x = as.matrix(x[sample(nrow(x),nrow(x),replace=TRUE)])
+    est[j,]=MaximumLikelihood(boot_x)}
+  bootstrap[[iter]]&lt;-est}
+return(bootstrap)}</code></pre>
+<pre class="r"><code>test&lt;-estimate_MLE_one_gene_with_boot(ENSG00000197728_data,boot_n=100)</code></pre>
+<pre class="r"><code>weights_matrix=matrix(, 53, ncol = 3)
+for (i in 1:53){
+  current_indiv&lt;-test[[i]]
+  weights_matrix[i,1]=1/sqrt(var(current_indiv[,1],na.rm=TRUE))
+  weights_matrix[i,2]=1/sqrt(var(current_indiv[,2],na.rm=TRUE))
+  weights_matrix[i,3]=1/sqrt(var(current_indiv[,3],na.rm=TRUE))}</code></pre>
+<pre class="r"><code>estimate_MLE_one_gene&lt;-function(full_data){
+  data_ind&lt;-substr(colnames(full_data),0,7)
+  data_ind&lt;-data_ind[2:length(data_ind)]
+  est=matrix(, nrow = (length(unique(data_ind))-1), ncol = 3)
+  info=matrix(, nrow = (length(unique(data_ind))-1), ncol = 2)
+  iter=0
+for (i in unique(data_ind)){
+  if (i==&quot;NA18498&quot;){
+    next}
+  iter=iter+1
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  est[iter,]=MaximumLikelihood(x)
+  info[iter,1]=i
+  info[iter,2]=dim(x)[1]}
+estimates&lt;-data.frame(est,info)
+colnames(estimates)&lt;-c(&quot;k_on&quot;,&quot;k_off&quot;,&quot;k_r&quot;,&quot;ind&quot;,&quot;n_cells&quot;)
+return(estimates)}</code></pre>
+<pre class="r"><code>MLE_and_regression_for_multiple_genes&lt;-function(dataset, current_genotype){
+  estimates&lt;-estimate_MLE_one_gene(dataset)
+  current_genotype_for_analysis&lt;-t(current_genotype)
+  current_genotype_for_analysis&lt;-data.frame(colnames(current_genotype),current_genotype_for_analysis)
+  colnames(current_genotype_for_analysis)&lt;-c(&quot;ind&quot;,&quot;genotype&quot;)
+  estimates&lt;-left_join(estimates,data.frame(current_genotype_for_analysis), by = &quot;ind&quot;)
+  estimates$genotype&lt;-as.numeric(as.character(estimates$genotype))
+  #model_k_on&lt;-lm(estimates$k_on~estimates$genotype,weights=weights[,1])
+  #model_k_off&lt;-lm(estimates$k_off~estimates$genotype,weights=weights[,2])
+  #model_k_r&lt;-lm(estimates$k_r~estimates$genotype,weights=weights[,3])
+  return(estimates)
+}</code></pre>
+<pre class="r"><code>estimates&lt;-MLE_and_regression_for_multiple_genes(ENSG00000197728_data,ENSG00000197728_genotype)</code></pre>
+<pre><code>Warning: Column `ind` joining factors with different levels, coercing to
+character vector</code></pre>
+<pre class="r"><code>model_k_on_w&lt;-lm(estimates$k_on~estimates$genotype,weights=weights_matrix[,1])
+model_k_off_w&lt;-lm(estimates$k_off~estimates$genotype,weights=weights_matrix[,2])
+model_k_r_w&lt;-lm(estimates$k_r~estimates$genotype,weights=weights_matrix[,3])
+summary(model_k_on_w)</code></pre>
+<pre><code>
+Call:
+lm(formula = estimates$k_on ~ estimates$genotype, weights = weights_matrix[, 
+    1])
+
+Weighted Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.5298 -0.3529  0.2347  0.7357  2.3186 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)         1.21554    0.07705  15.775   &lt;2e-16 ***
+estimates$genotype  0.53431    0.21551   2.479   0.0165 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.8717 on 51 degrees of freedom
+Multiple R-squared:  0.1076,    Adjusted R-squared:  0.09006 
+F-statistic: 6.147 on 1 and 51 DF,  p-value: 0.01651</code></pre>
+<pre class="r"><code>summary(model_k_off_w)</code></pre>
+<pre><code>
+Call:
+lm(formula = estimates$k_off ~ estimates$genotype, weights = weights_matrix[, 
+    2])
+
+Weighted Residuals:
+   Min     1Q Median     3Q    Max 
+-3.432 -0.066  0.380  0.805 52.788 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)          0.7159     1.1456   0.625    0.535
+estimates$genotype   1.6895     3.7560   0.450    0.655
+
+Residual standard error: 9.543 on 51 degrees of freedom
+Multiple R-squared:  0.003952,  Adjusted R-squared:  -0.01558 
+F-statistic: 0.2023 on 1 and 51 DF,  p-value: 0.6548</code></pre>
+<pre class="r"><code>summary(model_k_r_w)</code></pre>
+<pre><code>
+Call:
+lm(formula = estimates$k_r ~ estimates$genotype, weights = weights_matrix[, 
+    3])
+
+Weighted Residuals:
+   Min     1Q Median     3Q    Max 
+-6.424 -0.443  0.975  2.765 39.209 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          21.751      2.066   10.53 2.15e-14 ***
+estimates$genotype   -1.678      5.414   -0.31    0.758    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 7.124 on 51 degrees of freedom
+Multiple R-squared:  0.001881,  Adjusted R-squared:  -0.01769 
+F-statistic: 0.09609 on 1 and 51 DF,  p-value: 0.7578</code></pre>
+<pre class="r"><code>model_k_on&lt;-lm(estimates$k_on~estimates$genotype)
+model_k_off&lt;-lm(estimates$k_off~estimates$genotype)
+model_k_r&lt;-lm(estimates$k_r~estimates$genotype)
+summary(model_k_on)</code></pre>
+<pre><code>
+Call:
+lm(formula = estimates$k_on ~ estimates$genotype)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.2954 -0.4779 -0.2745  0.2301  6.7212 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          1.4056     0.2389   5.884 3.12e-07 ***
+estimates$genotype   2.0121     0.3786   5.315 2.37e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.546 on 51 degrees of freedom
+Multiple R-squared:  0.3565,    Adjusted R-squared:  0.3438 
+F-statistic: 28.25 on 1 and 51 DF,  p-value: 2.371e-06</code></pre>
+<pre class="r"><code>summary(model_k_off)</code></pre>
+<pre><code>
+Call:
+lm(formula = estimates$k_off ~ estimates$genotype)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-370.79   15.02   15.71   16.62  628.46 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          -14.78      20.54  -0.720    0.475    
+estimates$genotype   193.16      32.55   5.935 2.59e-07 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 132.9 on 51 degrees of freedom
+Multiple R-squared:  0.4085,    Adjusted R-squared:  0.3969 
+F-statistic: 35.22 on 1 and 51 DF,  p-value: 2.593e-07</code></pre>
+<pre class="r"><code>summary(model_k_r)</code></pre>
+<pre><code>
+Call:
+lm(formula = estimates$k_r ~ estimates$genotype)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-253.97   -0.49    5.03   11.63  464.30 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           18.51      14.33   1.292    0.202    
+estimates$genotype   120.47      22.71   5.305 2.46e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 92.73 on 51 degrees of freedom
+Multiple R-squared:  0.3556,    Adjusted R-squared:  0.3429 
+F-statistic: 28.14 on 1 and 51 DF,  p-value: 2.458e-06</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.0 (2018-04-23)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 17763)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_United States.1252 
+[2] LC_CTYPE=English_United States.1252   
+[3] LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                          
+[5] LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] dplyr_0.8.3       robustbase_0.93-3 reticulate_1.13  
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.2       knitr_1.20       magrittr_1.5     workflowr_1.5.0 
+ [5] tidyselect_0.2.5 lattice_0.20-38  R6_2.3.0         rlang_0.4.2     
+ [9] stringr_1.3.1    highr_0.7        tools_3.5.0      grid_3.5.0      
+[13] git2r_0.26.1     htmltools_0.3.6  assertthat_0.2.0 yaml_2.2.0      
+[17] rprojroot_1.3-2  digest_0.6.17    tibble_2.1.3     crayon_1.3.4    
+[21] Matrix_1.2-14    purrr_0.2.5      later_0.8.0      fs_1.3.1        
+[25] promises_1.0.1   glue_1.3.0       evaluate_0.11    rmarkdown_1.10  
+[29] stringi_1.1.7    pillar_1.4.2     DEoptimR_1.0-8   compiler_3.5.0  
+[33] backports_1.1.2  jsonlite_1.5     httpuv_1.5.1     pkgconfig_2.0.2 </code></pre>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
