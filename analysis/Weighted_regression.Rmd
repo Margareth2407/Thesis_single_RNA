@@ -1,0 +1,119 @@
+---
+title: "Weighted_regression"
+author: "Margarita Orlova"
+date: "February 15, 2020"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r}
+final_genotypes<-read.table("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/final_genotype_data.txt", header = T, sep = "\t")
+clean_data<-read.table("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/clean_dataset_for_analysis.txt", header = T, sep = "\t")
+library(reticulate)
+library(robustbase)
+library(dplyr)
+source_python("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/MLE.py")
+```
+
+```{r}
+ENSG00000197728_genotype<-final_genotypes[2,]
+ENSG00000197728_data<-clean_data[2,]
+```
+
+
+```{r}
+estimate_MLE_one_gene_with_boot<-function(full_data,boot_n){
+  data_ind<-substr(colnames(full_data),0,7)
+  data_ind<-data_ind[2:length(data_ind)]
+  bootstrap<-list()
+  iter=0
+for (i in unique(data_ind)){
+  if (i=="NA18498"){
+    next}
+  iter=iter+1
+  est=matrix(, boot_n, ncol = 3)
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  for (j in 1:boot_n){
+    boot_x = as.matrix(x[sample(nrow(x),nrow(x),replace=TRUE)])
+    est[j,]=MaximumLikelihood(boot_x)}
+  bootstrap[[iter]]<-est}
+return(bootstrap)}
+```
+
+
+```{r}
+test<-estimate_MLE_one_gene_with_boot(ENSG00000197728_data,boot_n=100)
+```
+
+
+```{r}
+weights_matrix=matrix(, 53, ncol = 3)
+for (i in 1:53){
+  current_indiv<-test[[i]]
+  weights_matrix[i,1]=1/sqrt(var(current_indiv[,1],na.rm=TRUE))
+  weights_matrix[i,2]=1/sqrt(var(current_indiv[,2],na.rm=TRUE))
+  weights_matrix[i,3]=1/sqrt(var(current_indiv[,3],na.rm=TRUE))}
+```
+
+
+```{r}
+estimate_MLE_one_gene<-function(full_data){
+  data_ind<-substr(colnames(full_data),0,7)
+  data_ind<-data_ind[2:length(data_ind)]
+  est=matrix(, nrow = (length(unique(data_ind))-1), ncol = 3)
+  info=matrix(, nrow = (length(unique(data_ind))-1), ncol = 2)
+  iter=0
+for (i in unique(data_ind)){
+  if (i=="NA18498"){
+    next}
+  iter=iter+1
+  x=full_data[ , grepl(i, names(full_data))]
+  x=t(data.matrix(x))
+  est[iter,]=MaximumLikelihood(x)
+  info[iter,1]=i
+  info[iter,2]=dim(x)[1]}
+estimates<-data.frame(est,info)
+colnames(estimates)<-c("k_on","k_off","k_r","ind","n_cells")
+return(estimates)}
+```
+
+
+```{r}
+MLE_and_regression_for_multiple_genes<-function(dataset, current_genotype){
+  estimates<-estimate_MLE_one_gene(dataset)
+  current_genotype_for_analysis<-t(current_genotype)
+  current_genotype_for_analysis<-data.frame(colnames(current_genotype),current_genotype_for_analysis)
+  colnames(current_genotype_for_analysis)<-c("ind","genotype")
+  estimates<-left_join(estimates,data.frame(current_genotype_for_analysis), by = "ind")
+  estimates$genotype<-as.numeric(as.character(estimates$genotype))
+  #model_k_on<-lm(estimates$k_on~estimates$genotype,weights=weights[,1])
+  #model_k_off<-lm(estimates$k_off~estimates$genotype,weights=weights[,2])
+  #model_k_r<-lm(estimates$k_r~estimates$genotype,weights=weights[,3])
+  return(estimates)
+}
+```
+
+```{r}
+estimates<-MLE_and_regression_for_multiple_genes(ENSG00000197728_data,ENSG00000197728_genotype)
+```
+
+```{r}
+model_k_on_w<-lm(estimates$k_on~estimates$genotype,weights=weights_matrix[,1])
+model_k_off_w<-lm(estimates$k_off~estimates$genotype,weights=weights_matrix[,2])
+model_k_r_w<-lm(estimates$k_r~estimates$genotype,weights=weights_matrix[,3])
+summary(model_k_on_w)
+summary(model_k_off_w)
+summary(model_k_r_w)
+```
+
+```{r}
+model_k_on<-lm(estimates$k_on~estimates$genotype)
+model_k_off<-lm(estimates$k_off~estimates$genotype)
+model_k_r<-lm(estimates$k_r~estimates$genotype)
+summary(model_k_on)
+summary(model_k_off)
+summary(model_k_r)
+```
+
