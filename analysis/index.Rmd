@@ -22,10 +22,7 @@ Real data
 * [MLE estimation with noise ](MLE_estimation_with_noise_parameter.html)
 
 
-For 2/10 meeting:
+For the meeting:
 
-* [Regression results for top 235 genes](Chapter_2_analysis.html)
-* [Question](Question_1.html)
-
-
-
+* [Regression on genotype and filtering genes](Chapter_2_analysis.html)
+* [Weighted regression](Weighted_regression.html)
