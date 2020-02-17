@@ -15,44 +15,80 @@ estimates<-list.load("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analys
 regression<-read.table("C:/Users/Moonkin/Documents/GitHub/Thesis_single_RNA/analysis/regression_for_235_genes.txt", header = T, sep = "\t")
 ```
 
-First we can take a look at quantile-quantile plots for $k_{on}$,$k_{off}$,$k_{r}$ p-values 
+```{r}
+mean_estimates=matrix(, nrow = 235, ncol = 3)
+median_estimates=matrix(, nrow = 235, ncol = 3)
+
+for (i in 1:235){
+  current<-estimates[[i]][,1:3]
+  mean_estimates[i,1]<-mean(as.numeric(current[,1]))
+  mean_estimates[i,2]<-mean(as.numeric(current[,2]))
+  mean_estimates[i,3]<-mean(as.numeric(current[,3]))
+  median_estimates[i,1]<-median(as.numeric(current[,1]))
+  median_estimates[i,2]<-median(as.numeric(current[,2]))
+  median_estimates[i,3]<-median(as.numeric(current[,3]))
+}
+```
+
+
+```{r}
+library(ggplot2)
+mean_estimates=data.frame(mean_estimates)
+colnames(mean_estimates)<-c("kon","koff","kr")
+ggplot(mean_estimates, aes(x=kon, y=koff))+geom_point()+labs(y = "k off",x="k on")
+
+median_estimates=data.frame(median_estimates)
+colnames(median_estimates)<-c("kon","koff","kr")
+ggplot(median_estimates, aes(x=kon, y=koff))+geom_point()+labs(y = "k off",x="k on")
+```
+
+```{r}
+filtered_regression<-regression[which(median_estimates$koff<=10), ]
+```
+
 
 ```{r}
 par(mfrow=c(1,3))
-U=seq(0, 1, length.out = 236)
-U=U[2:236]
-#plot(U,sort(regression$k_on_slope_p))
-#lines(U,U)
-plot(-log(U,base=10),-log(sort(regression$k_on_slope_p),base=10), main="k_on")
+U=seq(0, 1, length.out = 112)
+U=U[2:112]
+
+plot(-log(U,base=10),-log(sort(filtered_regression$k_on_slope_p),base=10), main="k_on", xlab="Expected -log(p)", ylab="Observed  -log(p)")
 lines(-log(U,base=10),-log(U,base=10))
 
-plot(-log(U,base=10),-log(sort(regression$k_off_slope_p),base=10), main="k_off")
+plot(-log(U,base=10),-log(sort(filtered_regression$k_off_slope_p),base=10), main="k_off", xlab="Expected -log(p)", ylab="Observed  -log(p)")
 lines(-log(U,base=10),-log(U,base=10))
 
-plot(-log(U,base=10),-log(sort(regression$k_r_slope_p),base=10), main="k_r")
+plot(-log(U,base=10),-log(sort(filtered_regression$k_r_slope_p),base=10), main="k_r", xlab="Expected -log(p)", ylab="Observed  -log(p)")
 lines(-log(U,base=10),-log(U,base=10))
 ```
-
-We apply Benjamini-Hochberg procedure to correct for FDR.
 
 
 ```{r}
-regression[p.adjust(regression$k_on_slope_p, method = "BH" , n = length(regression$k_off_slope_p))<0.05,]
-regression[p.adjust(regression$k_off_slope_p, method = "BH" , n = length(regression$k_off_slope_p))<0.05,]
-regression[p.adjust(regression$k_r_slope_p, method = "BH" , n = length(regression$k_off_slope_p))<0.05,]
+filtered_regression[p.adjust(filtered_regression$k_on_slope_p, method = "BH" , n = length(filtered_regression$k_off_slope_p))<0.05,]
+filtered_regression[p.adjust(filtered_regression$k_off_slope_p, method = "BH" , n = length(filtered_regression$k_off_slope_p))<0.05,]
+filtered_regression[p.adjust(filtered_regression$k_r_slope_p, method = "BH" , n = length(filtered_regression$k_off_slope_p))<0.05,]
 ```
 
 
-```{r, echo=FALSE}
-#BH_1=regression[order(regression$k_on_slope_p),]
-#critical_p=(seq(1,235, by=1)/235)*0.05
-#BH_1[BH_1$k_on_slope_p<critical_p]
+```{r}
+U=seq(0,30,by=0.01)
+hist(filtered_regression$k_on_slope^2/filtered_regression$k_on_slope_se^2, breaks=100,freq = FALSE)
+lines(U,dchisq(U,1))
+hist(filtered_regression$k_off_slope^2/filtered_regression$k_off_slope_se^2, breaks=100,freq = FALSE)
+lines(U,dchisq(U,1))
+hist(filtered_regression$k_r_slope^2/filtered_regression$k_r_slope_se^2, breaks=100,freq = FALSE)
+lines(U,dchisq(U,1))
+ks.test(filtered_regression$k_on_slope^2/filtered_regression$k_on_slope_se^2,dchisq(U,1))
+ks.test(filtered_regression$k_off_slope^2/filtered_regression$k_off_slope_se^2,dchisq(U,1))
+ks.test(filtered_regression$k_r_slope^2/filtered_regression$k_r_slope_se^2,dchisq(U,1))
 ```
 
 Here the scatterplot of estimates vs genotype for ENSG00000197728 gene, the only one that with all slopes coefficients being significant at 0.05 level after BH adjustment.
 
 ```{r}
 ENSG00000197728=estimates[[2]]
+ENSG00000151131=estimates[[147]]
+ENSG00000163811=estimates[[209]]
 
 par(mfrow=c(1,3))
 model1<- lm(k_on~genotype, data=ENSG00000197728)
@@ -68,6 +104,18 @@ abline(model2, col="red")
 plot(ENSG00000197728$genotype,ENSG00000197728$k_r, xlab="genotype", ylab="k_r estimate", main= "k_r scatterplot by genotype")
 abline(model3, col="red")
 ```
+
+
+```{r}
+print(summary(lm(k_on~genotype, data=ENSG00000197728)))
+print(summary(lm(k_off~genotype, data=ENSG00000197728)))
+print(summary(lm(k_r~genotype, data=ENSG00000197728)))
+print(summary(lm(k_off~genotype, data=ENSG00000151131)))
+print(summary(lm(k_r~genotype, data=ENSG00000151131)))
+print(summary(lm(k_off~genotype, data=ENSG00000163811)))
+```
+
+
 
 
 
